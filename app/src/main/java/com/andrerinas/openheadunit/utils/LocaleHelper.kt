@@ -92,12 +92,65 @@ object LocaleHelper {
 
     private const val KEY = "app-language"
     private const val MIGRATED = "app-language-platform-migrated"
+    private const val CN_DEFAULT = "app-language-cn-default"
+
+    /** Simplified Chinese, spelled the way the platform stores a region-qualified tag. */
+    private const val SIMPLIFIED_CHINESE = "zh-CN"
+    private const val ENGLISH_LANGUAGE = "en"
+
+    /**
+     * The languages this build can actually display.
+     *
+     * A car head unit is frequently set to a language DiAuto has no translation for, and Android
+     * then silently falls back to English, which is the wrong default for a driver who reads
+     * Chinese. This set is read from the values-XX folders the build scanned, so adding a
+     * translation automatically removes that language from the fallback rule below.
+     */
+    private val translatedLanguages: Set<String> by lazy {
+        BuildConfig.AVAILABLE_LOCALES
+            .split(",")
+            .mapNotNull { parseLocale(it.trim())?.language?.lowercase(Locale.ROOT) }
+            .toSet() + ENGLISH_LANGUAGE
+    }
 
     private fun preferences(context: Context) =
         context.getSharedPreferences(Settings.PREFS_NAME, Context.MODE_PRIVATE)
 
+    private fun deviceLanguage(context: Context): String {
+        @Suppress("DEPRECATION")
+        val locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            context.resources.configuration.locales[0]
+        } else {
+            context.resources.configuration.locale
+        }
+        return locale?.language?.lowercase(Locale.ROOT) ?: SYSTEM_DEFAULT
+    }
+
+    /**
+     * Lands an untranslated car language on Simplified Chinese instead of English.
+     *
+     * Runs at most once per install, is skipped whenever the user has already picked a language,
+     * and is deliberately not stored as the user's own choice, so returning to System default
+     * still restores the real system language.
+     */
+    private fun applyCnDefaultIfNeeded(context: Context) {
+        val prefs = preferences(context)
+        if (prefs.getBoolean(CN_DEFAULT, false)) return
+        val fallback = SIMPLIFIED_CHINESE.takeIf { deviceLanguage(context) !in translatedLanguages }
+        if (Build.VERSION.SDK_INT >= 33) {
+            val manager = context.getSystemService(android.app.LocaleManager::class.java)
+            if (fallback != null && manager != null && manager.applicationLocales.isEmpty && !prefs.contains(KEY)) {
+                stringToLocale(fallback)?.let { manager.applicationLocales = android.os.LocaleList(it) }
+            }
+        } else if (fallback != null && !prefs.contains(KEY)) {
+            prefs.edit().putString(KEY, fallback).apply()
+        }
+        prefs.edit().putBoolean(CN_DEFAULT, true).apply()
+    }
+
     /** Android 13 settings and the in-app picker share the same source of truth. */
     fun preference(context: Context): String {
+        applyCnDefaultIfNeeded(context)
         if (Build.VERSION.SDK_INT >= 33) {
             migrate(context)
             val locales = context.getSystemService(android.app.LocaleManager::class.java).applicationLocales
@@ -165,6 +218,10 @@ object LocaleHelper {
             if (isLocked) {
                 return context
             }
+            // Settle the fallback before the settings object reads the language back out. Calling it
+            // here as well as from preference() keeps the two entry points independent; the second
+            // call is a single flag read.
+            applyCnDefaultIfNeeded(context)
             val settings = Settings(context)
             return applyLocale(context, settings)
         } catch (e: Exception) {

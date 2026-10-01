@@ -8,6 +8,9 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 object BydNavigationOutputs {
+    private const val AMAP_PACKAGE = "com.byd.amapservice"
+    private const val SOMEIP_PACKAGE = "com.ts.car.someip.service"
+
     /** Recover a journaled interrupted output when the app opens, even before a phone reconnects. */
     fun onAppOpened(context: Context) { if (BydStandaloneHudOutput.available(context)) start(context) }
     fun setDiagnosticHold(hold: Boolean) { BydStandaloneHudOutput.syntheticHold = hold }
@@ -18,13 +21,21 @@ object BydNavigationOutputs {
     private var initialized = false
 
     fun available(context: Context): Boolean = Build.VERSION.SDK_INT >= 28 &&
-        (BydStandaloneHudOutput.available(context) || installed(context, "com.byd.amapservice") || installed(context, "com.ts.car.someip.service"))
+        (BydStandaloneHudOutput.available(context) || installed(context, AMAP_PACKAGE) || installed(context, SOMEIP_PACKAGE))
+
+    /** The SOME/IP gateway that drives the windshield HUD, probed for the diagnostics screen. */
+    internal fun probeSomeIp(context: Context): BydGateCheck =
+        BydGateCheck("someIpService", installed(context, SOMEIP_PACKAGE), SOMEIP_PACKAGE)
+
+    /** BYD's own map service, which accepts the instrument-cluster navigation broadcast. */
+    internal fun probeAmap(context: Context): BydGateCheck =
+        BydGateCheck("amapService", installed(context, AMAP_PACKAGE), AMAP_PACKAGE)
 
     private fun installed(context: Context, pkg: String): Boolean =
         runCatching { context.packageManager.getPackageInfo(pkg, 0) }.isSuccess
 
     @Synchronized fun start(context: Context) {
-        Log.i("DiAuto-BYD", "start enabled=${Settings(context).bydNavigationEnabled} cluster=${installed(context, "com.byd.amapservice")} hud=${installed(context, "com.ts.car.someip.service")}")
+        Log.i("DiAuto-BYD", "start enabled=${Settings(context).bydNavigationEnabled} cluster=${installed(context, AMAP_PACKAGE)} hud=${installed(context, SOMEIP_PACKAGE)}")
         active = true
         if (initialized || !available(context)) return
         initialized = true
@@ -38,11 +49,11 @@ object BydNavigationOutputs {
             }
             return // This firmware has one validated windshield transport.
         }
-        if (installed(app, "com.byd.amapservice")) {
+        if (installed(app, AMAP_PACKAGE)) {
             val cluster = BydClusterOutput(app)
             schedule("diauto-cluster", app, cluster::update)
         }
-        if (installed(app, "com.ts.car.someip.service")) {
+        if (installed(app, SOMEIP_PACKAGE)) {
             var hudInitialized = false
             schedule("diauto-hud", app) { value ->
                 if (value != null && !hudInitialized) {

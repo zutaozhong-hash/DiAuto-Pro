@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import com.andrerinas.openheadunit.aap.protocol.Channel
 import com.andrerinas.openheadunit.aap.protocol.proto.NavigationStatus
+import com.andrerinas.openheadunit.cluster.NavigationActivitySignal
 import com.andrerinas.openheadunit.utils.AppLog
 import com.andrerinas.openheadunit.utils.Settings
 
@@ -35,12 +36,14 @@ class AapNavigation(
         return when (message.type) {
             NavigationStatus.MsgType.INSTRUMENT_CLUSTER_START_VALUE -> {
                 AppLog.d("Nav: Instrument cluster start")
+                NavigationActivitySignal.onClusterStart()
                 clearAccumulatedData()
                 scheduleDebouncedBroadcast(NAV_EVENT_TYPE_START)
                 true
             }
             NavigationStatus.MsgType.INSTRUMENT_CLUSTER_STOP_VALUE -> {
                 AppLog.d("Nav: Instrument cluster stop")
+                NavigationActivitySignal.onClusterStop()
                 clearAccumulatedData()
                 scheduleDebouncedBroadcast(NAV_EVENT_TYPE_STOP)
                 helper.cancelNotification()
@@ -50,6 +53,12 @@ class AapNavigation(
                 try {
                     val status = message.parse(NavigationStatus.NavigationClusterStatus.newBuilder()).build()
                     AppLog.d("Nav: Navigation status=${status.status}")
+                    // ACTIVE and REROUTING mean a route is live; INACTIVE means a map is on screen
+                    // without one. This is the only signal that can also clear the flag.
+                    NavigationActivitySignal.onClusterStatus(
+                        status.status == NavigationStatus.NavigationClusterStatus.NavigationStatusEnum.ACTIVE ||
+                            status.status == NavigationStatus.NavigationClusterStatus.NavigationStatusEnum.REROUTING
+                    )
                     updateClusterStatus(status)
                     scheduleDebouncedBroadcast(NAV_EVENT_TYPE_STATUS)
                     true
@@ -61,6 +70,7 @@ class AapNavigation(
             NavigationStatus.MsgType.NEXTTURNDETAILS_VALUE -> {
                 try {
                     val detail = message.parse(NavigationStatus.NextTurnDetail.newBuilder()).buildPartial()
+                    NavigationActivitySignal.onNextTurnDetails(detail.hasNextTurn())
                     snapshot.nextTurnDetail = AapNavigationHelper.TimedMessage(detail, helper.nowElapsedRealtimeMs())
                     val road = detail.road.takeIf { it.isNotBlank() }
                     road?.let {
@@ -85,6 +95,7 @@ class AapNavigation(
                     val event = message.parse(NavigationStatus.NextTurnDistanceEvent.newBuilder()).buildPartial()
                     snapshot.nextTurnDistance = AapNavigationHelper.TimedMessage(event, helper.nowElapsedRealtimeMs())
                     val distanceMeters = event.distanceMeters.takeIf { it >= 0 }
+                    NavigationActivitySignal.onNextTurnDistance(distanceMeters ?: -1)
                     AppLog.d(
                         "Nav: NextTurnDistanceEvent hasDistance=${event.hasDistanceMeters()} " +
                                 "distance=${event.distanceMeters} hasTime=${event.hasTimeToTurnSeconds()} " +
@@ -103,6 +114,7 @@ class AapNavigation(
             NavigationStatus.MsgType.INSTRUMENT_CLUSTER_NAVIGATION_STATE_VALUE -> {
                 try {
                     val state = message.parse(NavigationStatus.NavigationState.newBuilder()).build()
+                    NavigationActivitySignal.onSteps(state.stepsCount)
                     snapshot.navigationState = AapNavigationHelper.TimedMessage(state, helper.nowElapsedRealtimeMs())
                     val firstStepRoad = state.stepsList.firstOrNull()
                         ?.takeIf { it.hasRoad() && it.road.hasName() }
@@ -122,6 +134,7 @@ class AapNavigation(
             NavigationStatus.MsgType.INSTRUMENT_CLUSTER_NAVIGATION_CURRENT_POSITION_VALUE -> {
                 try {
                     val position = message.parse(NavigationStatus.NavigationCurrentPosition.newBuilder()).build()
+                    NavigationActivitySignal.onPosition()
                     snapshot.currentPosition = AapNavigationHelper.TimedMessage(position, helper.nowElapsedRealtimeMs())
                     val road = position
                         .takeIf { it.hasCurrentRoad() && it.currentRoad.hasName() }

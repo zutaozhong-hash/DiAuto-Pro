@@ -11,7 +11,7 @@
     <string name="video">Android Auto</string>
     <string name="self_mode">自我模式</string>
     <string name="to_android_auto">到 Android Auto</string>
-    <string name="title">DiAuto</string>
+    <string name="title">DiAuto Pro</string>
     <string name="remove">移除</string>
     <string name="usb">USB</string>
     <string name="wifi">WiFi</string>
@@ -960,4 +960,71 @@
     <string name="audio_queue_backlog">无限制（最大积压）</string>
     <string name="keymap_test_hint">按任意键进行测试…</string>
     <string name="keymap_test_event">按键：%1$s（%2$d）· %3$s</string>
+
+    <!-- 连接建立过程中出现的传输层提示。放进资源，避免中文界面在连接中途弹出英文。 -->
+    <string name="wifi_direct_retry_5ghz">原生 Android Auto 的 Wi-Fi Direct 已在 %1$s 启动，正在重试 5 GHz…</string>
+    <string name="wifi_direct_unfriendly_channel">Wi-Fi Direct 当前在 %1$s，多数手机无法加入。请重启 Wi-Fi 后再试。</string>
+    <string name="wifi_direct_requires_wifi">原生 Android Auto 需要打开 Wi-Fi。</string>
+    <string name="wifi_direct_in_use">Wi-Fi Direct 正被其他应用占用。请先断开后再连接 DiAuto。</string>
+    <string name="wifi_direct_native_status">原生 Android Auto Wi-Fi Direct：%1$s（%2$s），%3$s</string>
+    <string name="wifi_direct_frequency_unknown">频率未知</string>
+    <string name="nearby_upgrade_timeout">Google Nearby 连接失败：Wi-Fi 带宽升级超时。请检查 Wi-Fi 和蓝牙设置。</string>
+    <string name="self_mode_need_headunit_server">检测到 Android Auto 17.4 及以上版本。请在 Android Auto 开发者设置中启动 Headunit Server。</string>
+    <string name="local_hotspot_requires_android_8">本地热点需要 Android 8 或更高版本。请改用 Wi-Fi Direct 或车机热点。</string>
+    <string name="local_hotspot_not_ready">本地热点未能就绪。请断开车机与家庭 Wi-Fi 的连接，或关闭车机共享热点后重试。</string>
+    <string name="local_hotspot_stopped">系统已停止本地热点。请在 Wi-Fi 可用时再连接。</string>
+    <string name="local_hotspot_start_failed">本地热点无法启动（Android 原因 %1$d）。请断开家庭 Wi-Fi，或关闭车机共享热点后重试。</string>
+    <string name="local_hotspot_need_permissions">启动本地热点前，请允许“附近的设备”和“位置”权限。</string>
+    <string name="local_hotspot_cannot_start_5ghz">此车机无法启动独立的 5 GHz 热点。请改用 Wi-Fi Direct 或车机热点。</string>
+    <string name="local_hotspot_no_wpa2">系统未提供兼容的 WPA2 本地热点。请改用其他连接方式。</string>
+    <string name="local_hotspot_not_5ghz">此车机把本地热点放在了 %1$d MHz，而不是 5 GHz。请将车机热点设为 5 GHz，或改用 Wi-Fi Direct。</string>
+    <string name="local_hotspot_android10_24ghz">此 Android 10 固件总是把本地热点放在 2.4 GHz。请使用设为 5 GHz 的车机热点，或改用 Wi-Fi Direct。</string>
+    <string name="local_hotspot_client_24ghz">车机 Wi-Fi 客户端正在使用 2.4 GHz 网络，本地热点也落到了 2.4 GHz。请关闭车机 Wi-Fi 客户端后重试，或改用车机热点 / Wi-Fi Direct。</string>
+    <string name="local_hotspot_channel_unreadable">无法读取此车机的本地热点信道（%1$s）。请改用 5 GHz 车机热点或 Wi-Fi Direct。</string>
+    <string name="local_hotspot_radio_unsettled">无线模块未稳定</string>
+    <string name="local_hotspot_address_unreadable">无法读取本地热点地址。请改用 Wi-Fi Direct 或车机热点。</string>
+
+    <string name="cluster_map_title">仪表投屏</string>
+    <string name="cluster_map_description">把 Android Auto 画面镜像到车辆仪表显示屏。实验性功能：仅适用于仪表区域已向应用开放共享的车型，需重新连接后生效。</string>
+
+    <string name="auto_start_no_paired_devices">未找到已配对的蓝牙设备</string>
+    <string name="auto_start_unknown_device">未知设备</string>
+
+    <!-- 比亚迪通道诊断。HUD 开关是否出现由门控决定；这个界面用来把该判定直接读出来，而不是靠猜。 -->
+    <string name="byd_diag_entry">比亚迪通道诊断</string>
+    <string name="byd_diag_title">比亚迪通道诊断</string>
+    <string name="byd_diag_copy">复制</string>
+    <string name="byd_diag_copied">诊断信息已复制到剪贴板</string>
+    <string name="byd_diag_toggle">HUD 开关：%1$s</string>
+    <string name="byd_diag_visible">显示</string>
+    <string name="byd_diag_hidden">隐藏</string>
+    <string name="byd_diag_channels">实际使用通道：%1$s</string>
+    <string name="byd_diag_channel_none">无</string>
+    <string name="byd_diag_setting">HUD 导航开关当前为：%1$s</string>
+    <string name="byd_diag_on">已开启</string>
+    <string name="byd_diag_off">已关闭</string>
+    <string name="byd_diag_group_firmware">固件与安装环境</string>
+    <string name="byd_diag_group_standalone">通道 A · 原厂接收器直推</string>
+    <string name="byd_diag_group_someip">通道 B · 风挡 HUD（SOME/IP）</string>
+    <string name="byd_diag_group_amap">通道 C · 仪表导航卡（广播）</string>
+    <string name="byd_diag_group_cluster">仪表投屏屏</string>
+    <string name="byd_diag_group_other">其他</string>
+    <string name="byd_diag_sdk">系统 API 等级（需 ≥28）</string>
+    <string name="byd_diag_package">应用包名（需在 HUD 白名单内）</string>
+    <string name="byd_diag_fingerprint">系统指纹（需与实测固件一致）</string>
+    <string name="byd_diag_fingerprint_expected">期望指纹</string>
+    <string name="byd_diag_clusterdebug_installed">com.byd.clusterdebug 已安装</string>
+    <string name="byd_diag_clusterdebug_version">com.byd.clusterdebug 版本码（需 10601004）</string>
+    <string name="byd_diag_clusterdebug_system">com.byd.clusterdebug 为系统应用</string>
+    <string name="byd_diag_clusterdebug_signature">com.byd.clusterdebug 签名 SHA-256</string>
+    <string name="byd_diag_receiver_enabled">BroadcastReceiverCAN 已启用</string>
+    <string name="byd_diag_receiver_exported">BroadcastReceiverCAN 已导出</string>
+    <string name="byd_diag_receiver_permission">BroadcastReceiverCAN 无权限限制</string>
+    <string name="byd_diag_someip">com.ts.car.someip.service 已安装</string>
+    <string name="byd_diag_amap">com.byd.amapservice 已安装</string>
+    <string name="byd_diag_cluster_displays">可落屏显示（id:名称(宽x高)）</string>
+    <string name="cluster_map_trigger_title">投屏时机</string>
+    <string name="cluster_map_trigger_always">常开</string>
+    <string name="cluster_map_trigger_cruise">巡航和导航</string>
+    <string name="cluster_map_trigger_navigation">仅导航</string>
 </resources>

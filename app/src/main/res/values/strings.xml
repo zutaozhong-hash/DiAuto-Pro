@@ -183,7 +183,7 @@
     <string name="video">Android Auto</string>
     <string name="self_mode">Self Mode</string>
     <string name="to_android_auto">To Android Auto</string>
-    <string name="title">DiAuto</string>
+    <string name="title">DiAuto Pro</string>
     <string name="remove">Remove</string>
     <string name="usb">USB</string>
     <string name="wifi">WiFi</string>
@@ -944,6 +944,8 @@
     <string name="rename_notice_button">Got it</string>
     <string name="byd_navigation_title">BYD HUD and instrument cluster</string>
     <string name="byd_navigation_description">Show Android Auto directions on supported BYD displays. Experimental; vehicle compatibility varies.</string>
+    <string name="cluster_map_title">Instrument cluster map mirror</string>
+    <string name="cluster_map_description">Mirror the Android Auto picture onto the vehicle instrument cluster display. Experimental: it only works on a vehicle whose cluster area is shared with apps.</string>
     <string name="da_connection_setup">Connection setup</string>
     <string name="da_connection_setup_hint">Choose a connection and set up your car hotspot.</string>
     <string name="da_diagnostics">Diagnostics</string>
@@ -1013,4 +1015,69 @@
     <string name="audio_queue_backlog">Unbounded (Max backlog)</string>
     <string name="keymap_test_hint">Press any key to test…</string>
     <string name="keymap_test_event">Key: %1$s (%2$d) · %3$s</string>
+
+    <!-- Connection-transport notices shown while a link is being brought up. They live in resources
+         so a translated build does not drop back to English halfway through a connection. -->
+    <string name="wifi_direct_retry_5ghz">Native Android Auto Wi-Fi Direct started on %1$s. Retrying 5 GHz…</string>
+    <string name="wifi_direct_unfriendly_channel">Wi-Fi Direct is on %1$s, which most phones cannot join. Restart Wi-Fi and try again.</string>
+    <string name="wifi_direct_requires_wifi">Native Android Auto needs Wi-Fi. Please turn it on.</string>
+    <string name="wifi_direct_in_use">Wi-Fi Direct is in use by another app. Disconnect it before connecting DiAuto.</string>
+    <string name="wifi_direct_native_status">Native Android Auto Wi-Fi Direct: %1$s (%2$s), %3$s</string>
+    <string name="wifi_direct_frequency_unknown">frequency unknown</string>
+    <string name="nearby_upgrade_timeout">Google Nearby connection failed: the Wi-Fi upgrade timed out. Check Wi-Fi and Bluetooth settings.</string>
+    <string name="self_mode_need_headunit_server">Android Auto 17.4+ detected. Start Headunit Server in Android Auto developer settings.</string>
+    <string name="local_hotspot_requires_android_8">Local hotspot requires Android 8 or later. Choose Wi-Fi Direct or car hotspot.</string>
+    <string name="local_hotspot_not_ready">Local hotspot did not become ready. Disconnect the car from home Wi-Fi or turn off its shared hotspot, then retry.</string>
+    <string name="local_hotspot_stopped">Android stopped the local hotspot. Connect again when Wi-Fi is available.</string>
+    <string name="local_hotspot_start_failed">Local hotspot could not start (Android reason %1$d). Disconnect home Wi-Fi or turn off the car\'s shared hotspot, then retry.</string>
+    <string name="local_hotspot_need_permissions">Allow Nearby devices and Location before starting the local hotspot.</string>
+    <string name="local_hotspot_cannot_start_5ghz">This car could not start a standalone 5 GHz hotspot. Choose Wi-Fi Direct or car hotspot.</string>
+    <string name="local_hotspot_no_wpa2">Android did not provide a compatible WPA2 local hotspot. Choose another connection.</string>
+    <string name="local_hotspot_not_5ghz">This car selected %1$d MHz for its local hotspot, not 5 GHz. Use the car hotspot set to 5 GHz, or Wi-Fi Direct.</string>
+    <string name="local_hotspot_android10_24ghz">This Android 10 firmware always places the local hotspot on 2.4 GHz. Use the car hotspot set to 5 GHz, or Wi-Fi Direct.</string>
+    <string name="local_hotspot_client_24ghz">The local hotspot landed on 2.4 GHz while the car Wi-Fi client was using a 2.4 GHz network. Turn the car Wi-Fi client off and try again, or choose car hotspot / Wi-Fi Direct.</string>
+    <string name="local_hotspot_channel_unreadable">Cannot read this car\'s local hotspot channel (%1$s). Choose a 5 GHz car hotspot or Wi-Fi Direct.</string>
+    <string name="local_hotspot_radio_unsettled">radio did not settle</string>
+    <string name="local_hotspot_address_unreadable">The local hotspot address could not be read. Choose Wi-Fi Direct or car hotspot.</string>
+    <string name="auto_start_no_paired_devices">No paired Bluetooth devices found</string>
+    <string name="auto_start_unknown_device">Unknown Device</string>
+
+    <!-- BYD channel diagnostics. The gate itself decides whether the HUD switch appears; this screen
+         exists so that decision can be read off the unit instead of guessed at. -->
+    <string name="byd_diag_entry">BYD channel diagnostics</string>
+    <string name="byd_diag_title">BYD channel diagnostics</string>
+    <string name="byd_diag_copy">Copy</string>
+    <string name="byd_diag_copied">Diagnostics copied to clipboard</string>
+    <string name="byd_diag_toggle">HUD switch: %1$s</string>
+    <string name="byd_diag_visible">shown</string>
+    <string name="byd_diag_hidden">hidden</string>
+    <string name="byd_diag_channels">Channel in use: %1$s</string>
+    <string name="byd_diag_channel_none">none</string>
+    <string name="byd_diag_setting">HUD navigation switch is %1$s</string>
+    <string name="byd_diag_on">on</string>
+    <string name="byd_diag_off">off</string>
+    <string name="byd_diag_group_firmware">Firmware and install</string>
+    <string name="byd_diag_group_standalone">Channel A - stock receiver, direct</string>
+    <string name="byd_diag_group_someip">Channel B - windshield HUD, SOME/IP</string>
+    <string name="byd_diag_group_amap">Channel C - cluster navigation card, broadcast</string>
+    <string name="byd_diag_group_cluster">Cluster mirror display</string>
+    <string name="byd_diag_group_other">Other</string>
+    <string name="byd_diag_sdk">Platform API level, 28 or newer required</string>
+    <string name="byd_diag_package">Application id, must be on the HUD allowlist</string>
+    <string name="byd_diag_fingerprint">Build fingerprint, must match the tested firmware</string>
+    <string name="byd_diag_fingerprint_expected">Expected fingerprint</string>
+    <string name="byd_diag_clusterdebug_installed">com.byd.clusterdebug installed</string>
+    <string name="byd_diag_clusterdebug_version">com.byd.clusterdebug version code, 10601004 required</string>
+    <string name="byd_diag_clusterdebug_system">com.byd.clusterdebug is a system app</string>
+    <string name="byd_diag_clusterdebug_signature">com.byd.clusterdebug signature SHA-256</string>
+    <string name="byd_diag_receiver_enabled">BroadcastReceiverCAN enabled</string>
+    <string name="byd_diag_receiver_exported">BroadcastReceiverCAN exported</string>
+    <string name="byd_diag_receiver_permission">BroadcastReceiverCAN permission-free</string>
+    <string name="byd_diag_someip">com.ts.car.someip.service installed</string>
+    <string name="byd_diag_amap">com.byd.amapservice installed</string>
+    <string name="byd_diag_cluster_displays">Presentation displays, id:name(WxH)</string>
+    <string name="cluster_map_trigger_title">Mirror timing</string>
+    <string name="cluster_map_trigger_always">Always</string>
+    <string name="cluster_map_trigger_cruise">Cruise + nav</string>
+    <string name="cluster_map_trigger_navigation">Nav only</string>
 </resources>

@@ -71,8 +71,8 @@ android {
         applicationId = "com.andrerinas.headunitrevived"
         minSdk = 16
         targetSdk = 36
-        versionCode = 110
-        versionName = "0.3.10"
+        versionCode = 112
+        versionName = "0.3.12"
         setProperty("archivesBaseName", "${applicationId}_${versionName}")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
@@ -126,7 +126,14 @@ android {
                 val keyprops = Properties()
                 keyprops.load(FileInputStream(keyfile))
 
-                if (keyprops.containsKey("storeFile")) storeFile = file(keyprops.getProperty("storeFile"))
+                // key.properties lives at the repo root, so resolve a relative storeFile
+                // against the root project too — `file(...)` would resolve it against the
+                // `app` module directory and silently produce an UNSIGNED release APK.
+                if (keyprops.containsKey("storeFile")) {
+                    val declared = keyprops.getProperty("storeFile")
+                    val candidates = listOf(rootProject.file(declared), file(declared))
+                    storeFile = candidates.firstOrNull { it.exists() } ?: candidates.first()
+                }
                 if (keyprops.containsKey("storePassword")) storePassword = keyprops.getProperty("storePassword")
                 if (keyprops.containsKey("keyAlias")) keyAlias = keyprops.getProperty("keyAlias")
                 if (keyprops.containsKey("keyPassword")) keyPassword = keyprops.getProperty("keyPassword")
@@ -208,6 +215,33 @@ android {
                 }
                 output.outputFileName = outputFileName
             }
+    }
+}
+
+// Static launcher shortcuts carry android:targetPackage as a *literal* string: manifest
+// placeholders are not substituted outside AndroidManifest.xml, and @string/... cannot be
+// used either because ShortcutParser resolves that attribute against the system Resources.
+// A literal that no longer matches the variant's applicationId compiles and packages
+// perfectly well, yet every long-press menu entry silently does nothing at runtime
+// ("ActivityNotFoundException: Shortcut could not be started"). Fail the build on drift.
+androidComponents {
+    onVariants { variant ->
+        if (variant.buildType != "debug") return@onVariants
+        val shortcuts = file("src/debug/res/xml/shortcuts.xml")
+        if (!shortcuts.exists()) return@onVariants
+        val expected = variant.applicationId.get()
+        val mismatched = Regex("android:targetPackage=\"([^\"]+)\"")
+            .findAll(shortcuts.readText())
+            .map { it.groupValues[1] }
+            .filter { it != expected }
+            .toSet()
+        if (mismatched.isNotEmpty()) {
+            throw GradleException(
+                "src/debug/res/xml/shortcuts.xml targets $mismatched but the " +
+                    "${variant.name} applicationId is \"$expected\". Static shortcuts " +
+                    "would launch nothing; update the android:targetPackage literals."
+            )
+        }
     }
 }
 

@@ -994,6 +994,9 @@ class AapService : Service(), UsbReceiver.Listener {
      */
     private fun onConnected() {
         com.andrerinas.openheadunit.hud.BydNavigationOutputs.start(this)
+        // The cluster mirror samples the projection view, so it can only be armed once a session
+        // exists; it stays idle by itself until that view is available.
+        com.andrerinas.openheadunit.cluster.ClusterProjectionController.onSessionStarted(this)
         isSwitchingToAccessory.set(false)
         updateNotification()
         acquireWifiLock()
@@ -1156,6 +1159,7 @@ class AapService : Service(), UsbReceiver.Listener {
      */
     private fun onDisconnected(state: CommManager.ConnectionState.Disconnected) {
         com.andrerinas.openheadunit.hud.BydNavigationOutputs.stop()
+        com.andrerinas.openheadunit.cluster.ClusterProjectionController.onSessionStopped()
         isSwitchingToAccessory.set(false)
         releaseWifiLock()
 
@@ -1771,6 +1775,7 @@ class AapService : Service(), UsbReceiver.Listener {
 
     override fun onTaskRemoved(rootIntent: Intent?) {
         com.andrerinas.openheadunit.hud.BydNavigationOutputs.stop()
+        com.andrerinas.openheadunit.cluster.ClusterProjectionController.onSessionStopped()
         AppLog.i("AapService: onTaskRemoved — attempting restart")
         try {
             val restartIntent = Intent(this, AapService::class.java)
@@ -1783,6 +1788,7 @@ class AapService : Service(), UsbReceiver.Listener {
 
     override fun onDestroy() {
         com.andrerinas.openheadunit.hud.BydNavigationOutputs.stop()
+        com.andrerinas.openheadunit.cluster.ClusterProjectionController.onSessionStopped()
         AppLog.i("AapService destroying... (wakeLock held=${bootWakeLock?.isHeld == true})")
         isDestroying = true
         mediaMetadataDecodeJob?.cancel()
@@ -3021,7 +3027,7 @@ class AapService : Service(), UsbReceiver.Listener {
                     AppLog.w("SelfMode: Headunit Server (127.0.0.1:5277) is NOT running.")
                     ToastUtils.showToast(
                         this@AapService,
-                        "Android Auto 17.4+ detected: Please start 'Headunit Server' in Android Auto Developer Settings!",
+                        R.string.self_mode_need_headunit_server,
                         Toast.LENGTH_LONG
                     )
                     openAaSettings()

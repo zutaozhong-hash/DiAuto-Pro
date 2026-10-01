@@ -115,6 +115,115 @@ class Settings(private val context: Context) {
         get() = prefs.getBoolean("byd-navigation-enabled", false)
         set(value) { prefs.edit().putBoolean("byd-navigation-enabled", value).apply() }
 
+    // ---------------------------------------------------------------- instrument cluster mirror
+    //
+    // A sampled copy of the Android Auto picture drawn on the BYD cluster's projection display.
+    // Off by default: it only does anything on a unit whose cluster is exposed as a public
+    // presentation display, and a second screenful of video is not free.
+    //
+    // The defaults below are the values the geometry was measured at. Only [clusterMapEnabled] is
+    // surfaced in the settings screen; everything else is stored here so an owner can tune it from a
+    // settings backup — or with `adb shell` — without a rebuild, while the geometry is still being
+    // confirmed on real firmwares.
+
+    var clusterMapEnabled: Boolean
+        get() = prefs.getBoolean("cluster-map-enabled", false)
+        set(value) { prefs.edit().putBoolean("cluster-map-enabled", value).apply() }
+
+    /**
+     * Which part of the cluster display the mirror may use.
+     *
+     * AUTO is per-firmware (see `ClusterDisplayPolicy.viewport`) and is the only value that is safe
+     * everywhere, because covering the stock instrument panels hides the speed and gear read-outs.
+     */
+    var clusterMapViewport: ClusterViewportMode
+        get() {
+            val value = prefs.getInt("cluster-map-viewport", ClusterViewportMode.AUTO.value)
+            return ClusterViewportMode.fromInt(value) ?: ClusterViewportMode.AUTO
+        }
+        set(mode) { prefs.edit().putInt("cluster-map-viewport", mode.value).apply() }
+
+    /**
+     * When the mirror is allowed to be on.
+     *
+     * `ALWAYS` is the original behaviour. The other two follow the navigation channel, which is the
+     * only part of Android Auto that can say whether a map is on screen and whether it is guiding a
+     * route; the mirror itself sees nothing but pixels. See `ClusterTriggerPolicy` for the rules.
+     */
+    var clusterMapTrigger: ClusterTrigger
+        get() {
+            val value = prefs.getInt("cluster-map-trigger", ClusterTrigger.ALWAYS.value)
+            return ClusterTrigger.fromInt(value) ?: ClusterTrigger.ALWAYS
+        }
+        set(mode) { prefs.edit().putInt("cluster-map-trigger", mode.value).apply() }
+
+    /** Exact display name to use, or "" for the automatic preference order. */
+    var clusterMapDisplayName: String
+        get() = prefs.getString("cluster-map-display-name", "") ?: ""
+        set(value) { prefs.edit().putString("cluster-map-display-name", value).apply() }
+
+    /** Display id to pin, or -1 for the automatic order. Only consulted among usable displays. */
+    var clusterMapDisplayId: Int
+        get() = prefs.getInt("cluster-map-display-id", -1)
+        set(value) { prefs.edit().putInt("cluster-map-display-id", value).apply() }
+
+    /**
+     * Skip the Presentation carrier and always launch a host activity instead.
+     *
+     * Exists because `Presentation` is not guaranteed to composite on every firmware; DiPlay's
+     * working DiLink 4.0 build uses an activity on the display for exactly this reason.
+     */
+    var clusterMapUseHostActivity: Boolean
+        get() = prefs.getBoolean("cluster-map-host-activity", false)
+        set(value) { prefs.edit().putBoolean("cluster-map-host-activity", value).apply() }
+
+    /**
+     * Mirror frame rate. The phone's stream is sampled, never re-decoded, so this caps the CPU and
+     * GPU cost of the copy and nothing else.
+     */
+    var clusterMapFps: Int
+        get() = prefs.getInt("cluster-map-fps", 10)
+        set(value) { prefs.edit().putInt("cluster-map-fps", value.coerceIn(1, 30)).apply() }
+
+    var clusterMapZoomPercent: Int
+        get() = prefs.getInt("cluster-map-zoom-percent", 100)
+        set(value) { prefs.edit().putInt("cluster-map-zoom-percent", value.coerceIn(10, 400)).apply() }
+
+    var clusterMapPanXPercent: Int
+        get() = prefs.getInt("cluster-map-pan-x-percent", 0)
+        set(value) { prefs.edit().putInt("cluster-map-pan-x-percent", value.coerceIn(-100, 100)).apply() }
+
+    var clusterMapPanYPercent: Int
+        get() = prefs.getInt("cluster-map-pan-y-percent", 0)
+        set(value) { prefs.edit().putInt("cluster-map-pan-y-percent", value.coerceIn(-100, 100)).apply() }
+
+    /**
+     * Source crop as percentages of the phone's frame.
+     *
+     * Shrinking it is how "only the map, not Android Auto's own bars" is expressed; the crop is taken
+     * before the fit, so it does not interact with [clusterMapZoomPercent].
+     */
+    var clusterMapSourceLeftPercent: Float
+        get() = prefs.getFloat("cluster-map-src-left-percent", 0f)
+        set(value) { prefs.edit().putFloat("cluster-map-src-left-percent", value.coerceIn(0f, 99f)).apply() }
+
+    var clusterMapSourceTopPercent: Float
+        get() = prefs.getFloat("cluster-map-src-top-percent", 0f)
+        set(value) { prefs.edit().putFloat("cluster-map-src-top-percent", value.coerceIn(0f, 99f)).apply() }
+
+    var clusterMapSourceRightPercent: Float
+        get() = prefs.getFloat("cluster-map-src-right-percent", 100f)
+        set(value) { prefs.edit().putFloat("cluster-map-src-right-percent", value.coerceIn(1f, 100f)).apply() }
+
+    var clusterMapSourceBottomPercent: Float
+        get() = prefs.getFloat("cluster-map-src-bottom-percent", 100f)
+        set(value) { prefs.edit().putFloat("cluster-map-src-bottom-percent", value.coerceIn(1f, 100f)).apply() }
+
+    /** false = whole crop visible, bars on the short axis; true = fill the viewport and clip. */
+    var clusterMapCenterCrop: Boolean
+        get() = prefs.getBoolean("cluster-map-center-crop", false)
+        set(value) { prefs.edit().putBoolean("cluster-map-center-crop", value).apply() }
+
     var showNavigationNotifications: Boolean
         get() = prefs.getBoolean("show-navigation-notifications", false)
         set(value) {
@@ -1333,6 +1442,34 @@ class Settings(private val context: Context) {
 
         companion object {
             private val map = values().associateBy(ViewMode::value)
+            fun fromInt(value: Int) = map[value]
+        }
+    }
+
+    /** Which area of the cluster display the mirror may occupy; see `ClusterDisplayPolicy`. */
+    enum class ClusterViewportMode(val value: Int) {
+        AUTO(0),
+        MAP_BAND(1),
+        SIDE_CARD(2),
+        FULL_BLEED(3);
+
+        companion object {
+            private val map = values().associateBy(ClusterViewportMode::value)
+            fun fromInt(value: Int) = map[value]
+        }
+    }
+
+    /**
+     * When the cluster mirror may be on. The three tiers nest, so `NAV_ONLY` is the strictest and
+     * `ALWAYS` imposes no condition at all; see `ClusterTriggerPolicy`.
+     */
+    enum class ClusterTrigger(val value: Int) {
+        ALWAYS(0),
+        CRUISE_AND_NAV(1),
+        NAV_ONLY(2);
+
+        companion object {
+            private val map = values().associateBy(ClusterTrigger::value)
             fun fromInt(value: Int) = map[value]
         }
     }

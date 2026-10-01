@@ -1,16 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    RELEASE copy: android:targetPackage must equal the *release* applicationId
-    (defaultConfig.applicationId = com.andrerinas.headunitrevived).
+    DEBUG-VARIANT OVERRIDE of src/main/res/xml/shortcuts.xml.
 
-    The debug build type appends applicationIdSuffix = ".bydhudtest", so it gets its own
-    copy at app/src/debug/res/xml/shortcuts.xml which overrides this file. ${applicationId}
-    cannot be used here (manifest placeholders are not substituted outside
-    AndroidManifest.xml), and a mismatch makes every launcher long-press shortcut a silent
-    no-op with "ActivityNotFoundException: Shortcut could not be started".
+    Why this file exists
+    ====================
+    android:targetPackage in a static shortcut is read as a *plain string* by
+    Intent.parseIntent() (frameworks/base core/java/android/content/Intent.java):
 
-    The build fails fast if the two ever drift apart — see the androidComponents guard in
-    app/build.gradle.kts.
+        String packageName = sa.getString(R.styleable.Intent_targetPackage);
+        String className   = sa.getString(R.styleable.Intent_targetClass);
+        if (packageName != null && className != null) {
+            intent.setComponent(new ComponentName(packageName, className));
+        }
+
+    Two consequences we have to live with:
+
+      1. ${applicationId} manifest placeholders are NOT substituted outside
+         AndroidManifest.xml, and @string/... cannot be used here either, because
+         ShortcutParser resolves the styled attribute against the *system* Resources
+         (ShortcutService.mContext.getResources()), not the app's. The package must
+         therefore be spelled out literally.
+      2. If either attribute is missing the component is never set and the intent
+         degrades to a bare implicit intent — which, with both the release and the
+         debug build installed, would raise a disambiguation dialog instead of
+         silently doing nothing. So we keep both attributes and only fix the package.
+
+    The debug build type applies applicationIdSuffix = ".bydhudtest", so the single
+    differing attribute in this copy is android:targetPackage.
+
+    MAINTENANCE: whenever `applicationId` or the debug `applicationIdSuffix` in
+    app/build.gradle.kts changes, update the seven android:targetPackage values in
+    THIS file to match the debug applicationId. Keeping it wrong makes every
+    launcher long-press shortcut a silent no-op (ActivityNotFoundException:
+    "Shortcut could not be started").
+
+    Debug applicationId: com.andrerinas.headunitrevived.bydhudtest
 -->
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
@@ -21,7 +45,7 @@
         android:shortcutLongLabel="@string/shortcut_connect_desc">
         <intent
             android:action="com.andrerinas.openheadunit.ACTION_CONNECT"
-            android:targetPackage="com.andrerinas.headunitrevived"
+            android:targetPackage="com.andrerinas.headunitrevived.bydhudtest"
             android:targetClass="com.andrerinas.openheadunit.main.AutomationActivity" />
     </shortcut>
     <shortcut
@@ -32,7 +56,7 @@
         android:shortcutLongLabel="@string/shortcut_selfmode_desc">
         <intent
             android:action="com.andrerinas.openheadunit.ACTION_START_SELF_MODE"
-            android:targetPackage="com.andrerinas.headunitrevived"
+            android:targetPackage="com.andrerinas.headunitrevived.bydhudtest"
             android:targetClass="com.andrerinas.openheadunit.main.AutomationActivity" />
     </shortcut>
 
@@ -44,7 +68,7 @@
         android:shortcutLongLabel="@string/shortcut_disconnect_desc">
         <intent
             android:action="com.andrerinas.openheadunit.ACTION_DISCONNECT"
-            android:targetPackage="com.andrerinas.headunitrevived"
+            android:targetPackage="com.andrerinas.headunitrevived.bydhudtest"
             android:targetClass="com.andrerinas.openheadunit.main.AutomationActivity" />
     </shortcut>
 
@@ -56,7 +80,7 @@
         android:shortcutLongLabel="@string/shortcut_exit_desc">
         <intent
             android:action="com.andrerinas.openheadunit.ACTION_STOP_SERVICE"
-            android:targetPackage="com.andrerinas.headunitrevived"
+            android:targetPackage="com.andrerinas.headunitrevived.bydhudtest"
             android:targetClass="com.andrerinas.openheadunit.main.AutomationActivity" />
     </shortcut>
 
@@ -68,7 +92,7 @@
         android:shortcutLongLabel="@string/shortcut_night_mode_day_desc">
         <intent
             android:action="com.andrerinas.openheadunit.ACTION_SET_NIGHT_MODE"
-            android:targetPackage="com.andrerinas.headunitrevived"
+            android:targetPackage="com.andrerinas.headunitrevived.bydhudtest"
             android:targetClass="com.andrerinas.openheadunit.main.AutomationActivity">
             <extra android:name="state" android:value="day" />
         </intent>
@@ -82,7 +106,7 @@
         android:shortcutLongLabel="@string/shortcut_night_mode_night_desc">
         <intent
             android:action="com.andrerinas.openheadunit.ACTION_SET_NIGHT_MODE"
-            android:targetPackage="com.andrerinas.headunitrevived"
+            android:targetPackage="com.andrerinas.headunitrevived.bydhudtest"
             android:targetClass="com.andrerinas.openheadunit.main.AutomationActivity">
             <extra android:name="state" android:value="night" />
         </intent>
@@ -96,7 +120,7 @@
         android:shortcutLongLabel="@string/shortcut_night_mode_auto_desc">
         <intent
             android:action="com.andrerinas.openheadunit.ACTION_SET_NIGHT_MODE"
-            android:targetPackage="com.andrerinas.headunitrevived"
+            android:targetPackage="com.andrerinas.headunitrevived.bydhudtest"
             android:targetClass="com.andrerinas.openheadunit.main.AutomationActivity">
             <extra android:name="state" android:value="auto" />
         </intent>

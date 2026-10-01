@@ -88,3 +88,8 @@ docs/TELEGRAM_ANNOUNCEMENTS.md
 
 # oh-my-claudecode local state
 .omc/
+
+# Local release signing credentials (never commit)
+secrets.properties
+*.jks
+*.keystore

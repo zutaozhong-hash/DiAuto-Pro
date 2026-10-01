@@ -1,3 +1,14 @@
+# DiAuto 0.3.12 — 2026-10-01
+
+- The instrument cluster mirror can now be limited to when you want it: always, only while a map is on screen (cruising or navigating), or only while a route is being guided. Defaults to always, which is the previous behaviour.
+- The mirror follows Android Auto's navigation channel to tell those states apart; when it is withheld, the stock cluster display gets its layer back instead of showing a frozen frame.
+
+# DiAuto 0.3.11 — 2026-10-01
+
+- Mirror the Android Auto picture onto the vehicle instrument cluster display on firmware whose cluster area is shared with apps. Off by default; turn it on and reconnect. No BYD private permission is used.
+- Complete Simplified and Traditional Chinese coverage: the Wi-Fi Direct, Nearby and local-hotspot notices are now translated, and Traditional Chinese no longer drops to English across the setup wizard, diagnostics and audio settings.
+- A car set to a language DiAuto has no translation for now starts in Simplified Chinese instead of English. Picking a language, or System default, still wins.
+
 # DiAuto 0.3.10 — 2026-09-29
 
 - Completed English, Simplified Chinese, Arabic, Russian and Spanish coverage, including home, connection setup, diagnostics and audio settings.

@@ -99,6 +99,21 @@
 
         </activity>
 
+        <!--
+            Carries the instrument-cluster mirror on the cluster display. Never started from the
+            launcher: it is launched explicitly onto the cluster display with setLaunchDisplayId,
+            and only as a fallback when a Presentation cannot be composited there (the route
+            DiPlay's working DiLink 4.0 build uses). Translucent so the stock cluster read-outs
+            underneath stay visible.
+        -->
+        <activity
+            android:name=".cluster.ClusterHostActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|density|uiMode"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:resizeableActivity="true"
+            android:theme="@style/AppTheme.Translucent" />
+
         <activity
             android:name=".app.UsbAttachedActivity"
             android:directBootAware="true"

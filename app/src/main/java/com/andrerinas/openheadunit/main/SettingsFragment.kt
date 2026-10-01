@@ -2,6 +2,8 @@ package com.andrerinas.openheadunit.main
 
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -82,6 +84,8 @@ class SettingsFragment : Fragment() {
     // Local state to hold changes before saving
     private var pendingUseGps: Boolean? = null
     private var pendingBydNavigationEnabled: Boolean? = null
+    private var pendingClusterMapEnabled: Boolean? = null
+    private var pendingClusterMapTrigger: Settings.ClusterTrigger? = null
     private var pendingShowNavigationNotifications: Boolean? = null
     private var pendingSyncMediaSessionAaMetadata: Boolean? = null
     private var pendingResolution: Int? = null
@@ -208,6 +212,8 @@ class SettingsFragment : Fragment() {
         // Initialize local state with current values
         pendingUseGps = settings.useGpsForNavigation
         pendingBydNavigationEnabled = settings.bydNavigationEnabled
+        pendingClusterMapEnabled = settings.clusterMapEnabled
+        pendingClusterMapTrigger = settings.clusterMapTrigger
         pendingShowNavigationNotifications = settings.showNavigationNotifications
         pendingSyncMediaSessionAaMetadata = settings.syncMediaSessionWithAaMetadata
         pendingResolution = settings.resolutionId
@@ -323,6 +329,8 @@ class SettingsFragment : Fragment() {
     private fun reloadPendingStateFromSettings() {
         pendingUseGps = settings.useGpsForNavigation
         pendingBydNavigationEnabled = settings.bydNavigationEnabled
+        pendingClusterMapEnabled = settings.clusterMapEnabled
+        pendingClusterMapTrigger = settings.clusterMapTrigger
         pendingShowNavigationNotifications = settings.showNavigationNotifications
         pendingSyncMediaSessionAaMetadata = settings.syncMediaSessionWithAaMetadata
         pendingResolution = settings.resolutionId
@@ -445,6 +453,18 @@ class SettingsFragment : Fragment() {
 
         pendingUseGps?.let { settings.useGpsForNavigation = it }
         pendingBydNavigationEnabled?.let { settings.bydNavigationEnabled = it }
+        pendingClusterMapEnabled?.let {
+            settings.clusterMapEnabled = it
+            // The mirror is already running by this point, so it has to be told rather than waiting
+            // for the next connection; refresh() is idempotent and safe with no session.
+            com.andrerinas.openheadunit.cluster.ClusterProjectionController.refresh(requireContext())
+        }
+        pendingClusterMapTrigger?.let {
+            settings.clusterMapTrigger = it
+            // Same reason as the switch: the tier can be changed while the mirror is live, and only
+            // refresh() re-reads it and starts or stops the navigation watch loop accordingly.
+            com.andrerinas.openheadunit.cluster.ClusterProjectionController.refresh(requireContext())
+        }
         pendingShowNavigationNotifications?.let { settings.showNavigationNotifications = it }
         pendingSyncMediaSessionAaMetadata?.let { settings.syncMediaSessionWithAaMetadata = it }
         pendingResolution?.let { settings.resolutionId = it }
@@ -568,6 +588,8 @@ class SettingsFragment : Fragment() {
         // Check for any changes
         val anyChange = pendingUseGps != settings.useGpsForNavigation ||
                         pendingBydNavigationEnabled != settings.bydNavigationEnabled ||
+                        pendingClusterMapEnabled != settings.clusterMapEnabled ||
+                        pendingClusterMapTrigger != settings.clusterMapTrigger ||
                         pendingShowNavigationNotifications != settings.showNavigationNotifications ||
                         pendingSyncMediaSessionAaMetadata != settings.syncMediaSessionWithAaMetadata ||
                         pendingResolution != settings.resolutionId ||
@@ -1191,6 +1213,47 @@ class SettingsFragment : Fragment() {
                 }
             ))
         }
+
+        // Listed unconditionally, unlike the switch above: its whole purpose is to explain why that
+        // switch can be missing, so it cannot itself be gated on the same condition.
+        items.add(SettingItem.ActionButton(
+            stableId = "bydDiagnostics",
+            textResId = R.string.byd_diag_entry,
+            onClick = { showBydChannelDiagnostics() }
+        ))
+
+        items.add(SettingItem.ToggleSettingEntry(
+            stableId = "clusterMap",
+            nameResId = R.string.cluster_map_title,
+            descriptionResId = R.string.cluster_map_description,
+            isChecked = pendingClusterMapEnabled ?: false,
+            onCheckedChanged = { enabled ->
+                pendingClusterMapEnabled = enabled
+                checkChanges()
+                updateSettingsList()
+            }
+        ))
+
+        // Unconditional on purpose, unlike the BYD navigation switch: a control that hides itself is
+        // indistinguishable from a feature that was never built, and this one is the only way to say
+        // when the mirror may be on. Selected index maps straight onto ClusterTriggerPolicy.Trigger.
+        val clusterTriggerOptions = listOf(
+            getString(R.string.cluster_map_trigger_always),
+            getString(R.string.cluster_map_trigger_cruise),
+            getString(R.string.cluster_map_trigger_navigation),
+        )
+        items.add(SettingItem.SegmentedButtonSettingEntry(
+            stableId = "clusterMapTrigger",
+            nameResId = R.string.cluster_map_trigger_title,
+            options = clusterTriggerOptions,
+            selectedIndex = (pendingClusterMapTrigger ?: Settings.ClusterTrigger.ALWAYS).value
+                .coerceIn(0, clusterTriggerOptions.lastIndex),
+            onOptionSelected = { index ->
+                pendingClusterMapTrigger = Settings.ClusterTrigger.fromInt(index)
+                checkChanges()
+                updateSettingsList()
+            }
+        ))
 
         items.add(SettingItem.ToggleSettingEntry(
             stableId = "showNavigationNotifications",
@@ -2285,6 +2348,37 @@ class SettingsFragment : Fragment() {
             }
         }
         return result
+    }
+
+    /**
+     * Renders the BYD output gates, with a copy action so the dump can be pasted into a report.
+     *
+     * The point of this screen is that it reads the very same probes the gate enforces, so it cannot
+     * report a rule other than the one actually applied.
+     */
+    private fun showBydChannelDiagnostics() {
+        val report = runCatching {
+            com.andrerinas.openheadunit.hud.BydChannelDiagnostics.render(requireContext())
+        }.getOrElse { error ->
+            AppLog.e("Cannot build BYD channel diagnostics", error)
+            error.toString()
+        }
+        MaterialAlertDialogBuilder(requireContext(), R.style.DarkAlertDialog)
+            .setTitle(R.string.byd_diag_title)
+            .setMessage(report)
+            .setPositiveButton(android.R.string.ok) { _, _ -> }
+            .setNeutralButton(R.string.byd_diag_copy) { _, _ -> copyBydChannelDiagnostics(report) }
+            .show()
+    }
+
+    private fun copyBydChannelDiagnostics(report: String) {
+        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+        if (clipboard == null) {
+            AppLog.w("No clipboard service, BYD diagnostics left uncopied")
+            return
+        }
+        clipboard.setPrimaryClip(ClipData.newPlainText(getString(R.string.byd_diag_title), report))
+        Toast.makeText(requireContext(), R.string.byd_diag_copied, Toast.LENGTH_SHORT).show()
     }
 
     private fun shouldShowItem(
