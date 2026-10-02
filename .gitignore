@@ -93,3 +93,6 @@ docs/TELEGRAM_ANNOUNCEMENTS.md
 secrets.properties
 *.jks
 *.keystore
+
+# Local push credential (never commit)
+.gh-push-token
