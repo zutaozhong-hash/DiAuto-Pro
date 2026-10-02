@@ -46,15 +46,15 @@
         "points": [
           "**Supports DiLink 4.0 / 5.0 / 5.1 instrument cluster projection**, choosing the projection method and area for the firmware automatically.",
           "Speed, gear and the other stock instrument read-outs stay live and uncovered.",
-          "Off by default — enable under **Settings → Advanced → “Instrument cluster map mirror”**."
+          "**The cluster mirror itself is off by default** — turn it on under **Settings → Advanced → “Instrument cluster map mirror”**. Once it is on, the mirror timing setting below decides when it mirrors."
         ]
       },
       {
         "eyebrow": "Timing",
         "title": "Choose when the cluster mirrors",
-        "body": "Mirroring the whole time is not always what you want. Three strictly nested tiers let the cluster keep showing the car’s own display when you do not need the map. Defaults to Always, so nothing changes until you opt in.",
+        "body": "Mirroring the whole time is not always what you want. Three strictly nested tiers let the cluster keep showing the car’s own display when you do not need the map. **These tiers only apply once the cluster mirror is switched on, and the default tier is Always** — so with the mirror on, a live session mirrors continuously until you change it.",
         "points": [
-          "**Always** — mirrors whenever a session is up (default).",
+          "**Always** — mirrors whenever a session is up (the default tier once the mirror is on).",
           "**Cruise + nav** — mirrors whenever a map is on screen, guided or not.",
           "**Nav only** — mirrors only during active turn-by-turn guidance.",
           "Driven by Android Auto’s own instrument signals rather than by guessing from screen contents, with a 30-second window so a long straight road does not blink the mirror off."
@@ -140,15 +140,15 @@
         "points": [
           "**يدعم عرض الخريطة على عدّاد السيارة في DiLink 4.0 / 5.0 / 5.1**، ويختار طريقة العرض ومنطقته حسب الإصدار تلقائيًا.",
           "تبقى قراءات العدّاد الأصلية — السرعة والترس وغيرها — ظاهرة ولا يغطّيها العرض.",
-          "معطّل افتراضيًا — شغّله من **الإعدادات ← متقدّم ← «Instrument cluster map mirror»**."
+          "**عرض الخريطة على العدّاد معطّل افتراضيًا**، شغّله من **الإعدادات ← متقدّم ← «Instrument cluster map mirror»**. وبعد تشغيله تحدّد «درجات التوقيت» أدناه متى يُعرض."
         ]
       },
       {
         "eyebrow": "التوقيت",
         "title": "اختيار متى يُعرض العدّاد",
-        "body": "العرض الدائم ليس دائمًا ما تريده. ثلاث درجات متداخلة تتيح للعدّاد أن يعرض شاشة السيارة الأصلية عندما لا تحتاج إلى الخريطة. الوضع الافتراضي «دائمًا»، فلا يتغيّر شيء قبل أن تختار.",
+        "body": "العرض الدائم ليس دائمًا ما تريده. ثلاث درجات متداخلة تتيح للعدّاد أن يعرض شاشة السيارة الأصلية عندما لا تحتاج إلى الخريطة. **هذه الدرجات تعمل فقط بعد تشغيل عرض العدّاد، والدرجة الافتراضية هي «دائمًا»** — فمع تشغيل العرض يستمر الإظهار ما دام الاتصال قائمًا حتى تغيّره بنفسك.",
         "points": [
-          "**دائمًا** — يعرض كلما كان الاتصال قائمًا (افتراضي).",
+          "**دائمًا** — يعرض كلما كان الاتصال قائمًا (الدرجة الافتراضية بعد تشغيل العرض).",
           "**القيادة + الملاحة** — يعرض كلما ظهرت خريطة على الشاشة، مع مسار أم لا.",
           "**الملاحة فقط** — يعرض فقط أثناء التوجيه التفصيلي الفعلي.",
           "القرار مبنيّ على إشارات العدّاد من Android Auto نفسها بدل التخمين من محتوى الشاشة، مع نافذة 30 ثانية حتى لا ينطفئ العرض في الطرق المستقيمة الطويلة."
@@ -234,15 +234,15 @@
         "points": [
           "**Поддержка зеркала карты на приборной панели для DiLink 4.0 / 5.0 / 5.1** — способ и область вывода выбираются по прошивке автоматически.",
           "Штатные показания — скорость, передача и другие — остаются видны и не закрываются.",
-          "По умолчанию выключено — включите в **Настройки → Дополнительно → «Instrument cluster map mirror»**."
+          "**Само зеркало приборной панели по умолчанию выключено** — включите его в **Настройки → Дополнительно → «Instrument cluster map mirror»**. После включения момент вывода задаёт режим ниже."
         ]
       },
       {
         "eyebrow": "Момент",
         "title": "Когда панель показывает зеркало",
-        "body": "Постоянное зеркало нужно не всегда. Три строго вложенных режима позволяют панели показывать собственный дисплей автомобиля, когда карта не нужна. По умолчанию — «Всегда», поэтому ничего не меняется, пока вы не включите.",
+        "body": "Постоянное зеркало нужно не всегда. Три строго вложенных режима позволяют панели показывать собственный дисплей автомобиля, когда карта не нужна. **Режимы действуют только после включения зеркала панели, и режим по умолчанию — «Всегда»** — то есть при включённом зеркале активная сессия выводится непрерывно, пока вы не измените настройку.",
         "points": [
-          "**Всегда** — выводит, пока сессия активна (по умолчанию).",
+          "**Всегда** — выводит, пока сессия активна (режим по умолчанию при включённом зеркале).",
           "**Круиз + навигация** — выводит, когда на экране есть карта, с маршрутом или без.",
           "**Только навигация** — выводит только при активном ведении по маршруту.",
           "Решение основано на собственных сигналах приборов от Android Auto, а не на догадках по содержимому экрана, с окном 30 секунд — на длинной прямой зеркало не мигает."
@@ -328,15 +328,15 @@
         "points": [
           "**Compatible con el espejo del cuadro en DiLink 4.0 / 5.0 / 5.1**, eligiendo la forma y el área de proyección según el firmware de forma automática.",
           "El velocímetro, la marcha y el resto de instrumentos originales siguen visibles y sin tapar.",
-          "Desactivado por defecto: actívalo en **Ajustes → Avanzado → «Instrument cluster map mirror»**."
+          "**El espejo del cuadro está desactivado por defecto**: actívalo en **Ajustes → Avanzado → «Instrument cluster map mirror»**. Una vez activado, el ajuste de momento de abajo decide cuándo se duplica."
         ]
       },
       {
         "eyebrow": "Momento",
         "title": "Elige cuándo se duplica el cuadro",
-        "body": "Duplicar todo el tiempo no siempre es lo que quieres. Tres niveles estrictamente anidados permiten que el cuadro muestre la pantalla propia del coche cuando no necesitas el mapa. Por defecto es «Siempre», así que nada cambia hasta que lo actives.",
+        "body": "Duplicar todo el tiempo no siempre es lo que quieres. Tres niveles estrictamente anidados permiten que el cuadro muestre la pantalla propia del coche cuando no necesitas el mapa. **Estos niveles solo se aplican una vez activado el espejo del cuadro, y el nivel por defecto es «Siempre»**; con el espejo activado, una sesión en marcha se duplica de forma continua hasta que lo cambies.",
         "points": [
-          "**Siempre** — duplica mientras haya sesión activa (por defecto).",
+          "**Siempre** — duplica mientras haya sesión activa (nivel por defecto con el espejo activado).",
           "**Crucero + navegación** — duplica cuando hay un mapa en pantalla, con o sin ruta.",
           "**Solo navegación** — duplica solo durante la guía activa giro a giro.",
           "La decisión se basa en las señales propias de instrumentos de Android Auto, no en adivinar por el contenido de la pantalla, con una ventana de 30 segundos para que el espejo no parpadee en rectas largas."
@@ -422,15 +422,15 @@
         "points": [
           "**支持 DiLink 4.0 / 5.0 / 5.1 的仪表盘投屏**，按固件自动选择投屏方式与显示区域。",
           "车速、挡位等原车仪表信息仍在底层正常显示，不会被遮挡。",
-          "默认关闭——请在 **设置 → 高级 →「Instrument cluster map mirror」** 中开启。"
+          "**仪表盘投屏功能本身默认关闭**，请在 **设置 → 高级 →「Instrument cluster map mirror」** 中开启。开启后，由下面的「投屏时机」决定何时投屏。"
         ]
       },
       {
         "eyebrow": "投屏时机",
         "title": "选择仪表盘何时投屏",
-        "body": "一直投屏并不总是你想要的。三档严格嵌套的时机设置，让你不需要地图时让仪表屏保留车辆自身显示。默认为「常开」，因此在你不主动更改前行为完全不变。",
+        "body": "一直投屏并不总是你想要的。三档严格嵌套的时机设置，让你不需要地图时让仪表屏保留车辆自身显示。**这些档位只在开启仪表盘投屏后才生效，且默认档位是「常开」**——因此在投屏开启的情况下，只要会话在线就会持续投屏，除非你主动更改。",
         "points": [
-          "**常开（Always）**——只要会话在线就投屏（默认）。",
+          "**常开（Always）**——只要会话在线就投屏（开启投屏后的默认档位）。",
           "**巡航 + 导航（Cruise + nav）**——只要屏幕上有地图就投屏，无论是否在导航。",
           "**仅导航（Nav only）**——仅在正在逐向导航时投屏。",
           "依据 Android Auto 自身发出的仪表信号判定，而不是靠屏幕内容推测；并设有 30 秒时间窗，避免长直路段上镜像反复闪烁。"
