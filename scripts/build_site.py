@@ -2,6 +2,7 @@
 """Generate the five static GitHub Pages editions; no runtime dependencies."""
 from pathlib import Path
 import json
+import re
 from html import escape as e
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / 'site'
@@ -13,6 +14,38 @@ TAG = 'v' + VERSION
 TELEGRAM = 'https://t.me/DiAutoPro'
 RELEASE = REPO + '/releases/tag/' + TAG
 DOWNLOAD = REPO + '/releases/download/' + TAG + '/DiAuto-Pro-' + VERSION + '.apk'
+BOLD = re.compile(r'\*\*(.+?)\*\*', re.S)
+CODE = re.compile(r'`([^`]+)`')
+
+
+def rich(text):
+    """Escape, then turn **bold** and `code` into markup. Content files stay plain text."""
+    out = e(text)
+    out = BOLD.sub(r'<strong>\1</strong>', out)
+    out = CODE.sub(r'<code>\1</code>', out)
+    return out
+
+
+def items(values, tag):
+    return ''.join('<li>' + rich(x) + '</li>' for x in values)
+
+
+def highlight_block(d):
+    cards = ''.join(
+        '<section class="card hl"><span class="eyebrow hl-eyebrow">' + rich(c['eyebrow']) + '</span>'
+        '<h3 class="hl-title">' + rich(c['title']) + '</h3>'
+        '<p>' + rich(c['body']) + '</p>'
+        '<ul>' + items(c['points'], 'li') + '</ul></section>'
+        for c in d['cards'])
+    head = ('<tr>' + ''.join('<th scope="col">' + rich(c) + '</th>' for c in d['specColumns']) + '</tr>')
+    body = ''.join('<tr>' + ''.join('<td>' + rich(c) + '</td>' for c in row) + '</tr>'
+                   for row in d['specRows'])
+    return (f'<section class="highlights"><h2>{rich(d["highlightsTitle"])}</h2>'
+            f'<p class="lead">{rich(d["highlightsLead"])}</p>'
+            f'<div class="grid hl-grid">{cards}</div>'
+            f'<h3 class="spec-head">{rich(d["specTitle"])}</h3>'
+            f'<div class="table-wrap"><table class="spec"><thead>{head}</thead><tbody>{body}</tbody></table></div>'
+            f'<p class="note">{rich(d["specNote"])}</p></section>')
 for lang, d in data.items():
     folder = SITE if lang == 'en' else SITE / lang
     folder.mkdir(exist_ok=True)
@@ -29,9 +62,10 @@ for lang, d in data.items():
 </head><body><main>
 <header><a class="brand" href="{prefix}"><img src="{prefix}assets/icon.svg" width="56" height="56" alt=""><span><strong>DiAuto Pro</strong><small>{e(d['tag'])}</small></span></a><nav class="languages" aria-label="Language">{nav}</nav></header>
 <section class="hero"><span class="badge">{e(d['badge'])} · <bdi>{VERSION}</bdi></span><h1>{e(d['title']).replace(chr(10),'<br>')}</h1><p class="intro">{e(d['intro'])}</p><div class="actions"><a class="button" href="{DOWNLOAD}">{e(d['download'])} <span aria-hidden="true">↓</span></a><a class="button secondary" href="#install">{e(d['install'])}</a></div><p class="promise">{e(d['promise'])}</p><p class="note">{e(d['requires'])}</p><p class="note support-scope"><strong>{e(d['supportScope'])}</strong></p></section>
+{highlight_block(d)}
 <section class="gallery"><h2>{e(d['gallery'])}</h2><div class="screens">{pics}</div></section>
-<div class="grid"><section class="card" id="install"><span class="eyebrow">01</span><h2>{e(d['setup'])}</h2><ol>{''.join('<li>'+e(x)+'</li>' for x in d['steps'])}</ol><p class="note">{e(d['bssid'])}</p><a href="{REPO}/blob/main/docs/INSTALL.md">{e(d['adb'])} ↗</a></section>
-<section class="card"><span class="eyebrow">02</span><h2>{e(d['whats'])}</h2><ul>{''.join('<li>'+e(x)+'</li>' for x in d['features'])}</ul><a href="{RELEASE}">{e(d['notes'])} ↗</a><h3>{e(d['compat'])}</h3><p>{e(d['compatText'])}</p></section></div>
+<div class="grid"><section class="card" id="install"><span class="eyebrow">01</span><h2>{e(d['setup'])}</h2><ol>{items(d['steps'],'li')}</ol><p class="note">{e(d['bssid'])}</p><a href="{REPO}/blob/main/docs/INSTALL.md">{e(d['adb'])} ↗</a></section>
+<section class="card"><span class="eyebrow">02</span><h2>{e(d['whats'])}</h2><ul>{items(d['features'],'li')}</ul><a href="{RELEASE}">{e(d['notes'])} ↗</a><h3>{e(d['compat'])}</h3><p>{rich(d['compatText'])}</p></section></div>
 <section class="card updates"><div><h2>{e(d['follow'])}</h2><p>{e(d['followText'])}</p></div><a class="button secondary" href="{TELEGRAM}">{e(d['telegram'])} ↗</a></section>
 <section class="signing"><h2>{e(d['update'])}</h2><p>{e(d['updateText'])}</p></section>
 <footer><nav><a href="{REPO}">{e(d['source'])}</a><a href="{RELEASE}">{e(d['notes'])}</a><a href="{REPO}/issues">{e(d['feedback'])}</a></nav><p>{e(d['footer'])}</p></footer>

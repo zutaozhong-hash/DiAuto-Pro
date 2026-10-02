@@ -27,14 +27,63 @@
     "bssid": "DiAuto 0.3.2 automatically recovers the Wi-Fi Direct address on supported DiLink firmware. Leave Static BSSID on Auto; no ADB setup is needed for this recovery. Some firmware and phone combinations may still have connection issues.",
     "whats": "What’s new",
     "features": [
-      "Completed English, Simplified Chinese, Arabic, Russian and Spanish coverage, including home, connection setup, diagnostics and audio settings.",
-      "Arabic right-to-left layout support and Simplified Chinese display/theme options.",
-      "On Android 13+, Android Settings and the in-app language picker now stay synchronized; older Android keeps the saved language choice.",
-      "Language selection survives settings export/import and resets correctly to System default.",
+      "**Instrument cluster map mirror**, with selectable mirror timing — the Android Auto picture beside your speed and gear read-outs.",
+      "**Windshield HUD navigation** — turn arrows, next-turn distance and street names on verified BYD firmware, with no ADB, root or helper computer.",
+      "**DiLink 4.0 / 5.0 / 5.1 support** for the cluster mirror: two carriers and per-firmware viewport geometry, so the mirror never covers the instruments.",
+      "Connection setup, diagnostics and audio settings localized for English, Simplified Chinese, Arabic, Russian and Spanish; Arabic RTL layout; 20+ community app translations.",
+      "Automatic Wi-Fi Direct address recovery on supported DiLink firmware, without ADB setup.",
       "Automatic translation-coverage and format checks help prevent regressions."
     ],
     "compat": "Compatibility",
-    "compatText": "Tested on BYD DiLink 5.1 running Android 13, with wireless and physical USB connections. Other head units and firmware versions are not yet verified. Features and performance depend on your phone and car; constant 60 FPS is not promised.",
+    "compatText": "The cluster mirror and the windshield HUD navigation target **BYD DiLink 4.0, 5.0 and 5.1**. Only **DiLink 5.1 with Android 13** has been exercised on a real car — wireless, USB and the 5.1 cluster layer handling. The **DiLink 4.0 / 5.0 cluster paths and the Android 10 connection paths are implemented and unit-tested but not yet verified on hardware**; if you run one of those firmwares you are an early tester. Outside BYD, compatibility is not guaranteed. Constant 60 FPS is not promised.",
+    "highlightsTitle": "Instrument cluster and HUD projection",
+    "highlightsLead": "Two independent projection paths ship in this fork. Both are opt-in, both are experimental, and neither needs ADB, root or a dongle.",
+    "cards": [
+      {
+        "eyebrow": "Cluster",
+        "title": "Map mirror on the instrument cluster",
+        "body": "Put the Android Auto picture on the cluster display, next to the speed and gear read-outs, using the cluster area BYD already shares with apps. The mirror adapts its viewport per firmware, so it never covers the instruments.",
+        "points": [
+          "**DiLink 4.0 / 5.0** — layer `fission_bg_XDJAScreenProjection`, carried by an activity launched with `setLaunchDisplayId`; the whole display is used.",
+          "**DiLink 5.1** — layers `shared_fission_bg_XDJAScreenProjection_0` (full map) and `_1` (side map), carried by a `Presentation`; only the map band or the 600×720 side card is used.",
+          "Panel resolution is 1920×720; stock instrument panels stay live underneath.",
+          "Off by default — enable under **Settings → Advanced → “Instrument cluster map mirror”**."
+        ]
+      },
+      {
+        "eyebrow": "Timing",
+        "title": "Choose when the cluster mirrors",
+        "body": "Mirroring the whole time is not always what you want. Three strictly nested tiers let the cluster keep showing the car’s own display when you do not need the map. Defaults to Always, so nothing changes until you opt in.",
+        "points": [
+          "**Always** — mirrors whenever a session is up (default).",
+          "**Cruise + nav** — mirrors whenever a map is on screen, guided or not.",
+          "**Nav only** — mirrors only during active turn-by-turn guidance.",
+          "Driven by Android Auto’s own `INSTRUMENT_CLUSTER_*` signals, with a 30-second window so a long straight road does not blink the mirror off."
+        ]
+      },
+      {
+        "eyebrow": "HUD",
+        "title": "Windshield navigation on DiLink 5.1",
+        "body": "Turn arrows, next-turn distance and street names can appear on the windshield HUD on verified firmware, without ADB, root or a helper process. This is a separate path from the map mirror and can be used on its own.",
+        "points": [
+          "Physically confirmed on **DiLink 5.1 / Android 13**; a contributor independently reported **DiLink 5.0** operation.",
+          "The stock receiver path is restricted to the verified firmware and receiver version; other firmware is not implicitly enabled.",
+          "The map app must supply structured navigation metadata — per-app compatibility is not guaranteed.",
+          "Opt-in under **Settings → Navigation**."
+        ]
+      }
+    ],
+    "specTitle": "Firmware support at a glance",
+    "specColumns": ["Capability", "DiLink 4.0", "DiLink 5.0", "DiLink 5.1"],
+    "specRows": [
+      ["Cluster map mirror", "Implemented, unverified", "Implemented, unverified", "Verified on car"],
+      ["Cluster layer", "`fission_bg_…`", "`fission_bg_…`", "`shared_fission_bg_…_0 / _1`"],
+      ["Cluster carrier", "Activity + display ID", "Activity + display ID", "Presentation"],
+      ["Mirror timing tiers", "Yes", "Yes", "Yes"],
+      ["Windshield HUD navigation", "No", "Reported by contributor", "Verified on car"],
+      ["Wireless / USB Android Auto", "Android 10 paths, unverified", "Android 10 paths, unverified", "Verified on car"]
+    ],
+    "specNote": "“Implemented, unverified” means the code path is written and covered by unit tests, but it has not been exercised on a real vehicle of that firmware. Please report what you see.",
     "update": "Updates & signing",
     "updateText": "Install over the previous public release to retain settings; the public signing key is unchanged. Test builds use a separate app package.",
     "follow": "Get release updates",
@@ -75,14 +124,63 @@
     "bssid": "يستخرج DiAuto 0.3.2 عنوان Wi-Fi Direct تلقائيًا على إصدارات DiLink المدعومة. اترك Static BSSID على Auto؛ لا تتطلب هذه الميزة إعداد ADB. قد تستمر مشكلات الاتصال مع بعض إصدارات النظام والهواتف.",
     "whats": "الجديد في هذا الإصدار",
     "features": [
-      "استكمال الإنجليزية والصينية المبسطة والعربية والروسية والإسبانية، بما يشمل الرئيسية وإعداد الاتصال والتشخيص وإعدادات الصوت.",
-      "دعم اتجاه الواجهة العربية من اليمين إلى اليسار وخيارات العرض والسمات بالصينية المبسطة.",
-      "على Android 13 أو أحدث، تتزامن لغة التطبيق مع إعدادات Android؛ وتحتفظ الإصدارات الأقدم باللغة المحفوظة.",
-      "يُحفظ اختيار اللغة عند تصدير الإعدادات واستيرادها، وتعمل العودة إلى لغة النظام بشكل صحيح.",
-      "فحوص تلقائية لاكتمال الترجمات وصحة تنسيق النصوص."
+      "**عرض الخريطة على عدّاد السيارة (Cluster)** مع اختيار توقيت العرض — صورة Android Auto بجانب السرعة والترس.",
+      "**ملاحة على الزجاج الأمامي (HUD)** — أسهم الانعطاف والمسافة وأسماء الشوارع على إصدارات BYD المتحقق منها، دون ADB أو root أو حاسوب مساعد.",
+      "دعم **DiLink 4.0 / 5.0 / 5.1** لعرض العدّاد: طريقتا نقل وإطار عرض يتكيّف مع كل إصدار، حتى لا يغطي العرض بيانات العدّاد.",
+      "إعداد الاتصال والتشخيص وإعدادات الصوت مترجمة إلى الإنجليزية والصينية المبسطة والعربية والروسية والإسبانية؛ مع دعم الواجهة العربية من اليمين إلى اليسار وأكثر من 20 ترجمة مجتمعية داخل التطبيق.",
+      "استخراج تلقائي لعنوان Wi-Fi Direct على إصدارات DiLink المدعومة، دون إعداد ADB.",
+      "فحوص تلقائية لاكتمال الترجمات وصحة التنسيق."
     ],
     "compat": "التوافق",
-    "compatText": "تم الاختبار على BYD DiLink 5.1 بنظام Android 13، لاسلكياً وبكابل USB فعلي. لم يُتحقق بعد من بقية الشاشات وإصدارات النظام. تعتمد الميزات والأداء على الهاتف والسيارة؛ لا نَعِد بثبات 60 إطاراً في الثانية.",
+    "compatText": "يستهدف عرض العدّاد والملاحة على الزجاج الأمامي **BYD DiLink 4.0 و5.0 و5.1**. لم يُجرَّب على سيارة حقيقية إلا **DiLink 5.1 مع Android 13** — لاسلكياً وبكابل USB ومعالجة طبقات العدّاد في 5.1. أما **مسارات DiLink 4.0 / 5.0 ومسارات Android 10 فهي منفّذة ومغطاة باختبارات وحدة لكنها لم تُتحقَّق على عتاد حقيقي**؛ إن كنت على أحد هذه الإصدارات فأنت مُختبِر مبكّر. لا نضمن التوافق خارج BYD ولا ثبات 60 إطاراً في الثانية.",
+    "highlightsTitle": "العرض على عدّاد السيارة وعلى الزجاج الأمامي",
+    "highlightsLead": "يوفّر هذا الفرع مسارين مستقلّين للعرض. كلاهما اختياري وتجريبي، ولا يحتاج أيّ منهما إلى ADB أو root أو قطعة خارجية.",
+    "cards": [
+      {
+        "eyebrow": "العدّاد",
+        "title": "عرض الخريطة على عدّاد السيارة",
+        "body": "ضع صورة Android Auto على شاشة العدّاد بجانب السرعة والترس، مستفيدًا من منطقة العدّاد التي تتيحها BYD للتطبيقات. يتكيّف الإطار مع كل إصدار نظام، فلا يغطّي بيانات العدّاد.",
+        "points": [
+          "**DiLink 4.0 / 5.0** — الطبقة `fission_bg_XDJAScreenProjection`، يحملها Activity يُشغَّل عبر `setLaunchDisplayId`؛ ويُستخدم كامل الشاشة.",
+          "**DiLink 5.1** — الطبقتان `shared_fission_bg_XDJAScreenProjection_0` (الخريطة كاملة) و`_1` (خريطة جانبية)، يحملهما `Presentation`؛ ويُستخدم شريط الخريطة أو بطاقة جانبية 600×720 فقط.",
+          "دقة شاشة العدّاد 1920×720؛ وتبقى بيانات العدّاد الأصلية ظاهرة في الخلفية.",
+          "معطّل افتراضيًا — شغّله من **الإعدادات ← متقدّم ← «Instrument cluster map mirror»**."
+        ]
+      },
+      {
+        "eyebrow": "التوقيت",
+        "title": "اختيار متى يُعرض العدّاد",
+        "body": "العرض الدائم ليس دائمًا ما تريده. ثلاث درجات متداخلة تتيح للعدّاد أن يعرض شاشة السيارة الأصلية عندما لا تحتاج إلى الخريطة. الوضع الافتراضي «دائمًا»، فلا يتغيّر شيء قبل أن تختار.",
+        "points": [
+          "**دائمًا** — يعرض كلما كان الاتصال قائمًا (افتراضي).",
+          "**القيادة + الملاحة** — يعرض كلما ظهرت خريطة على الشاشة، مع مسار أم لا.",
+          "**الملاحة فقط** — يعرض فقط أثناء التوجيه التفصيلي الفعلي.",
+          "القرار مبنيّ على إشارات Android Auto نفسها `INSTRUMENT_CLUSTER_*` مع نافذة 30 ثانية، حتى لا ينطفئ العرض في الطرق المستقيمة الطويلة."
+        ]
+      },
+      {
+        "eyebrow": "HUD",
+        "title": "ملاحة الزجاج الأمامي على DiLink 5.1",
+        "body": "يمكن أن تظهر أسهم الانعطاف والمسافة وأسماء الشوارع على الزجاج الأمامي في الإصدارات المتوافق معها، دون ADB أو root أو برنامج مساعد. هذا مسار مستقل عن عرض العدّاد ويمكن استخدامه وحده.",
+        "points": [
+          "تم تأكيده فعليًا على **DiLink 5.1 / Android 13**؛ وأفاد مساهم مستقل بتشغيله على **DiLink 5.0**.",
+          "مسار المستقبِل الأصلي مقيَّد بالإصدار المتحقق منه وإصدار المستقبِل؛ ولا تُفعَّل بقية الإصدارات ضمنيًا.",
+          "يجب أن يوفّر تطبيق الخرائط بيانات ملاحة منظّمة؛ ولا نضمن توافق كل تطبيق.",
+          "شغّله من **الإعدادات ← الملاحة**."
+        ]
+      }
+    ],
+    "specTitle": "دعم الإصدارات باختصار",
+    "specColumns": ["الميزة", "DiLink 4.0", "DiLink 5.0", "DiLink 5.1"],
+    "specRows": [
+      ["عرض الخريطة على العدّاد", "منفَّذ، غير متحقَّق", "منفَّذ، غير متحقَّق", "متحقَّق على سيارة"],
+      ["طبقة العدّاد", "`fission_bg_…`", "`fission_bg_…`", "`shared_fission_bg_…_0 / _1`"],
+      ["ناقل العرض", "Activity + معرّف الشاشة", "Activity + معرّف الشاشة", "Presentation"],
+      ["درجات توقيت العرض", "مدعوم", "مدعوم", "مدعوم"],
+      ["ملاحة الزجاج الأمامي", "غير مدعوم", "أفاد به مساهم", "متحقَّق على سيارة"],
+      ["Android Auto لاسلكي / USB", "مسارات Android 10، غير متحقَّق", "مسارات Android 10، غير متحقَّق", "متحقَّق على سيارة"]
+    ],
+    "specNote": "«منفَّذ، غير متحقَّق» يعني أن المسار البرمجي مكتمل ومغطّى باختبارات وحدة، لكنه لم يُجرَّب على سيارة حقيقية بهذا الإصدار. نرجو إبلاغنا بالنتائج.",
     "update": "التحديثات والتوقيع",
     "updateText": "ثبّت فوق الإصدار العام السابق للاحتفاظ بالإعدادات؛ مفتاح التوقيع لم يتغير. إصدارات الاختبار تستخدم حزمة تطبيق منفصلة.",
     "follow": "تابع آخر التحديثات",
@@ -123,14 +221,63 @@
     "bssid": "DiAuto 0.3.2 автоматически определяет адрес Wi-Fi Direct на поддерживаемых прошивках DiLink. Оставьте Static BSSID в режиме Auto; для этого не нужна настройка ADB. На некоторых прошивках и телефонах проблемы подключения могут сохраняться.",
     "whats": "Что нового",
     "features": [
-      "Завершён перевод на английский, упрощённый китайский, арабский, русский и испанский, включая главный экран, подключение, диагностику и звук.",
-      "Поддержка арабского интерфейса справа налево и переводы параметров экрана и темы на упрощённый китайский.",
-      "На Android 13+ язык в системных настройках и приложении синхронизирован; на старых версиях сохраняется выбор приложения.",
-      "Язык сохраняется при экспорте и импорте настроек и корректно сбрасывается к системному.",
+      "**Зеркало карты на приборной панели** с выбором момента включения — картинка Android Auto рядом со спидометром и передачей.",
+      "**Навигация на лобовом стекле (HUD)** — стрелки поворотов, дистанция и названия улиц на проверенных прошивках BYD, без ADB, root и компьютера.",
+      "Поддержка **DiLink 4.0 / 5.0 / 5.1** для зеркала приборной панели: два способа вывода и геометрия области под каждую прошивку, чтобы зеркало не закрывало приборы.",
+      "Настройка подключения, диагностика и настройки звука переведены на английский, упрощённый китайский, арабский, русский и испанский; арабский интерфейс справа налево и более 20 переводов сообщества.",
+      "Автоматическое восстановление адреса Wi-Fi Direct на поддерживаемых прошивках DiLink, без настройки ADB.",
       "Автоматические проверки полноты переводов и аргументов форматирования."
     ],
     "compat": "Совместимость",
-    "compatText": "Проверено на BYD DiLink 5.1 с Android 13 по беспроводному соединению и USB. Другие устройства и версии прошивки пока не проверены. Возможности и производительность зависят от телефона и автомобиля; постоянные 60 кадров/с не гарантируются.",
+    "compatText": "Зеркало приборной панели и навигация на лобовом стекле рассчитаны на **BYD DiLink 4.0, 5.0 и 5.1**. На реальном автомобиле проверен только **DiLink 5.1 с Android 13** — беспроводное и USB-подключение, а также работа со слоями приборной панели 5.1. **Пути DiLink 4.0 / 5.0 и подключения на Android 10 реализованы и покрыты модульными тестами, но на аппаратуре не проверены**; если у вас такая прошивка, вы ранний тестировщик. За пределами BYD совместимость не гарантируется. Постоянные 60 кадров/с не обещаются.",
+    "highlightsTitle": "Вывод на приборную панель и HUD",
+    "highlightsLead": "В этой ветке два независимых способа вывода. Оба включаются вручную, оба экспериментальны, и ни одному не нужны ADB, root или адаптер.",
+    "cards": [
+      {
+        "eyebrow": "Панель",
+        "title": "Зеркало карты на приборной панели",
+        "body": "Выводит картинку Android Auto на дисплей приборной панели, рядом со спидометром и передачей, используя область, которую BYD уже открывает приложениям. Область вывода подстраивается под прошивку, поэтому приборы не перекрываются.",
+        "points": [
+          "**DiLink 4.0 / 5.0** — слой `fission_bg_XDJAScreenProjection`, выводится через Activity, запущенную с `setLaunchDisplayId`; используется весь дисплей.",
+          "**DiLink 5.1** — слои `shared_fission_bg_XDJAScreenProjection_0` (карта целиком) и `_1` (боковая карта), вывод через `Presentation`; используются только полоса карты или боковая карточка 600×720.",
+          "Разрешение панели — 1920×720; штатные приборы остаются видны под изображением.",
+          "По умолчанию выключено — включите в **Настройки → Дополнительно → «Instrument cluster map mirror»**."
+        ]
+      },
+      {
+        "eyebrow": "Момент",
+        "title": "Когда панель показывает зеркало",
+        "body": "Постоянное зеркало нужно не всегда. Три строго вложенных режима позволяют панели показывать собственный дисплей автомобиля, когда карта не нужна. По умолчанию — «Всегда», поэтому ничего не меняется, пока вы не включите.",
+        "points": [
+          "**Всегда** — выводит, пока сессия активна (по умолчанию).",
+          "**Круиз + навигация** — выводит, когда на экране есть карта, с маршрутом или без.",
+          "**Только навигация** — выводит только при активном ведении по маршруту.",
+          "Решение основано на собственных сигналах Android Auto `INSTRUMENT_CLUSTER_*` с окном 30 секунд, поэтому на длинной прямой зеркало не мигает."
+        ]
+      },
+      {
+        "eyebrow": "HUD",
+        "title": "Навигация на лобовом стекле в DiLink 5.1",
+        "body": "На проверенных прошивках стрелки поворотов, дистанция и названия улиц могут отображаться на лобовом стекле — без ADB, root и вспомогательных программ. Это отдельный путь, независимый от зеркала карты.",
+        "points": [
+          "Физически подтверждено на **DiLink 5.1 / Android 13**; участник проекта независимо сообщил о работе на **DiLink 5.0**.",
+          "Штатный путь приёмника ограничен проверенной прошивкой и версией приёмника; остальные прошивки автоматически не включаются.",
+          "Приложение карт должно передавать структурированные навигационные данные — совместимость с каждым приложением не гарантируется.",
+          "Включается в **Настройки → Навигация**."
+        ]
+      }
+    ],
+    "specTitle": "Поддержка прошивок кратко",
+    "specColumns": ["Возможность", "DiLink 4.0", "DiLink 5.0", "DiLink 5.1"],
+    "specRows": [
+      ["Зеркало карты на панели", "Реализовано, не проверено", "Реализовано, не проверено", "Проверено на авто"],
+      ["Слой панели", "`fission_bg_…`", "`fission_bg_…`", "`shared_fission_bg_…_0 / _1`"],
+      ["Способ вывода", "Activity + ID дисплея", "Activity + ID дисплея", "Presentation"],
+      ["Режимы момента вывода", "Есть", "Есть", "Есть"],
+      ["Навигация на лобовом стекле", "Нет", "Сообщил участник", "Проверено на авто"],
+      ["Android Auto: беспроводно / USB", "Пути Android 10, не проверены", "Пути Android 10, не проверены", "Проверено на авто"]
+    ],
+    "specNote": "«Реализовано, не проверено» означает, что код написан и покрыт модульными тестами, но не запускался на реальном автомобиле с такой прошивкой. Пожалуйста, сообщайте о результатах.",
     "update": "Обновления и подпись",
     "updateText": "Установите поверх предыдущего публичного выпуска, чтобы сохранить настройки; ключ подписи не изменился. Тестовые сборки используют отдельный пакет приложения.",
     "follow": "Следите за обновлениями",
@@ -171,14 +318,63 @@
     "bssid": "DiAuto 0.3.2 recupera automáticamente la dirección Wi-Fi Direct en firmware DiLink compatible. Deja Static BSSID en Auto; esta función no requiere configurar ADB. Algunas combinaciones de firmware y teléfono pueden seguir teniendo problemas de conexión.",
     "whats": "Novedades",
     "features": [
-      "Traducciones completas en inglés, chino simplificado, árabe, ruso y español, incluidas las pantallas de inicio, conexión, diagnóstico y audio.",
-      "Interfaz árabe de derecha a izquierda y opciones de pantalla y tema en chino simplificado.",
-      "En Android 13 o posterior, el idioma del sistema y el selector de la aplicación están sincronizados; las versiones anteriores conservan la selección guardada.",
-      "El idioma se conserva al exportar e importar ajustes y se restablece correctamente al predeterminado del sistema.",
+      "**Espejo del mapa en el cuadro de instrumentos**, con momento de duplicado seleccionable: la imagen de Android Auto junto al velocímetro y la marcha.",
+      "**Navegación en el parabrisas (HUD)**: flechas de giro, distancia y nombres de calles en firmware BYD verificado, sin ADB, root ni ordenador auxiliar.",
+      "Compatibilidad **DiLink 4.0 / 5.0 / 5.1** para el espejo del cuadro: dos métodos de transporte y geometría adaptada a cada firmware, para no tapar los instrumentos.",
+      "Configuración de conexión, diagnóstico y ajustes de audio localizados en inglés, chino simplificado, árabe, ruso y español; interfaz árabe de derecha a izquierda y más de 20 traducciones de la comunidad.",
+      "Recuperación automática de la dirección Wi-Fi Direct en firmware DiLink compatible, sin configurar ADB.",
       "Comprobaciones automáticas de cobertura de traducciones y formato."
     ],
     "compat": "Compatibilidad",
-    "compatText": "Probado en BYD DiLink 5.1 con Android 13, tanto inalámbrico como con cable USB. Otras unidades y versiones de firmware aún no están verificadas. Las funciones y el rendimiento dependen del teléfono y del coche; no se prometen 60 FPS constantes.",
+    "compatText": "El espejo del cuadro y la navegación en el parabrisas están pensados para **BYD DiLink 4.0, 5.0 y 5.1**. Solo se ha probado en un coche real **DiLink 5.1 con Android 13**: inalámbrico, USB y el tratamiento de capas del cuadro en 5.1. Las **rutas de DiLink 4.0 / 5.0 y las de conexión en Android 10 están implementadas y cubiertas por pruebas unitarias, pero no se han verificado en hardware**; si usas uno de esos firmware, eres tester temprano. Fuera de BYD no se garantiza la compatibilidad. No se prometen 60 FPS constantes.",
+    "highlightsTitle": "Proyección en el cuadro y en el HUD",
+    "highlightsLead": "Esta bifurcación incluye dos vías de proyección independientes. Ambas son opcionales, ambas son experimentales y ninguna necesita ADB, root ni adaptador.",
+    "cards": [
+      {
+        "eyebrow": "Cuadro",
+        "title": "Espejo del mapa en el cuadro de instrumentos",
+        "body": "Lleva la imagen de Android Auto a la pantalla del cuadro, junto al velocímetro y la marcha, usando el área que BYD ya comparte con las aplicaciones. El área se adapta a cada firmware, así que nunca tapa los instrumentos.",
+        "points": [
+          "**DiLink 4.0 / 5.0** — capa `fission_bg_XDJAScreenProjection`, transportada por una Activity lanzada con `setLaunchDisplayId`; se usa toda la pantalla.",
+          "**DiLink 5.1** — capas `shared_fission_bg_XDJAScreenProjection_0` (mapa completo) y `_1` (mapa lateral), transportadas por un `Presentation`; se usa solo la banda del mapa o la tarjeta lateral de 600×720.",
+          "La resolución del cuadro es 1920×720; los instrumentos originales siguen activos debajo.",
+          "Desactivado por defecto: actívalo en **Ajustes → Avanzado → «Instrument cluster map mirror»**."
+        ]
+      },
+      {
+        "eyebrow": "Momento",
+        "title": "Elige cuándo se duplica el cuadro",
+        "body": "Duplicar todo el tiempo no siempre es lo que quieres. Tres niveles estrictamente anidados permiten que el cuadro muestre la pantalla propia del coche cuando no necesitas el mapa. Por defecto es «Siempre», así que nada cambia hasta que lo actives.",
+        "points": [
+          "**Siempre** — duplica mientras haya sesión activa (por defecto).",
+          "**Crucero + navegación** — duplica cuando hay un mapa en pantalla, con o sin ruta.",
+          "**Solo navegación** — duplica solo durante la guía activa giro a giro.",
+          "La decisión se basa en las señales propias de Android Auto `INSTRUMENT_CLUSTER_*`, con una ventana de 30 segundos para que el espejo no parpadee en rectas largas."
+        ]
+      },
+      {
+        "eyebrow": "HUD",
+        "title": "Navegación en el parabrisas en DiLink 5.1",
+        "body": "En firmware verificado, las flechas de giro, la distancia y los nombres de calles pueden aparecer en el parabrisas, sin ADB, root ni proceso auxiliar. Es una vía independiente del espejo del mapa y puede usarse sola.",
+        "points": [
+          "Confirmado físicamente en **DiLink 5.1 / Android 13**; un colaborador informó por separado de su funcionamiento en **DiLink 5.0**.",
+          "La vía del receptor original está restringida al firmware y a la versión del receptor verificados; otros firmware no se habilitan de forma implícita.",
+          "La aplicación de mapas debe aportar metadatos de navegación estructurados; no se garantiza la compatibilidad con todas.",
+          "Se activa en **Ajustes → Navegación**."
+        ]
+      }
+    ],
+    "specTitle": "Compatibilidad de firmware de un vistazo",
+    "specColumns": ["Capacidad", "DiLink 4.0", "DiLink 5.0", "DiLink 5.1"],
+    "specRows": [
+      ["Espejo del mapa en el cuadro", "Implementado, sin verificar", "Implementado, sin verificar", "Verificado en coche"],
+      ["Capa del cuadro", "`fission_bg_…`", "`fission_bg_…`", "`shared_fission_bg_…_0 / _1`"],
+      ["Transporte", "Activity + ID de pantalla", "Activity + ID de pantalla", "Presentation"],
+      ["Niveles de momento", "Sí", "Sí", "Sí"],
+      ["Navegación en el parabrisas", "No", "Informado por colaborador", "Verificado en coche"],
+      ["Android Auto inalámbrico / USB", "Rutas Android 10, sin verificar", "Rutas Android 10, sin verificar", "Verificado en coche"]
+    ],
+    "specNote": "«Implementado, sin verificar» significa que el código está escrito y cubierto por pruebas unitarias, pero no se ha ejecutado en un coche real con ese firmware. Cuéntanos qué ves.",
     "update": "Actualizaciones y firma",
     "updateText": "Instala sobre la versión pública anterior para conservar los ajustes; la clave de firma no cambia. Las versiones de prueba usan un paquete de aplicación separado.",
     "follow": "Recibe las novedades",
@@ -219,14 +415,63 @@
     "bssid": "DiAuto 0.3.2 可在支持的 DiLink 固件上自动获取 Wi-Fi Direct 地址。请将 Static BSSID 保持为 Auto；此功能无需配置 ADB。部分固件与手机组合仍可能存在连接问题。",
     "whats": "本次更新",
     "features": [
-      "完善英语、简体中文、阿拉伯语、俄语和西班牙语翻译，涵盖主页、连接设置、诊断和音频设置。",
-      "支持阿拉伯语从右到左布局，并提供简体中文显示与主题选项。",
-      "Android 13 及以上版本的系统应用语言与应用内选择同步；旧版 Android 保留已保存的语言选择。",
-      "导出和导入设置时保留语言选择，并可正确恢复为系统默认语言。",
+      "**仪表盘地图镜像**，并可选择投屏时机——把 Android Auto 画面投到车速与挡位信息旁边的仪表屏上。",
+      "**挡风玻璃 HUD 导航**——在已验证的比亚迪固件上显示转向箭头、转弯距离和道路名称，无需 ADB、root 或电脑辅助。",
+      "仪表盘镜像支持 **DiLink 4.0 / 5.0 / 5.1**：两种投屏载体与按固件自适应的视口，确保镜像不遮挡仪表信息。",
+      "连接设置、诊断与音频设置已本地化为英语、简体中文、阿拉伯语、俄语和西班牙语；支持阿拉伯语从右到左布局；应用内另有 20 多种社区翻译。",
+      "在支持的 DiLink 固件上自动恢复 Wi-Fi Direct 地址，无需配置 ADB。",
       "自动检查翻译覆盖和格式参数，减少后续回归。"
     ],
     "compat": "兼容性",
-    "compatText": "已在搭载 Android 13 的比亚迪 DiLink 5.1 上测试无线及 USB 有线连接。其他车机和固件版本尚未验证。功能和性能取决于手机与车机，不保证稳定 60 FPS。",
+    "compatText": "仪表盘镜像与挡风玻璃 HUD 导航面向 **比亚迪 DiLink 4.0、5.0 和 5.1**。目前只有 **DiLink 5.1 + Android 13** 已在实车上验证——包括无线、USB 以及 5.1 的仪表图层处理。**DiLink 4.0 / 5.0 的仪表路径与 Android 10 的连接路径已实现并通过单元测试，但尚未在实车上验证**；如果你使用这些固件，你就是早期测试者。比亚迪以外的车机不保证兼容。不承诺稳定 60 FPS。",
+    "highlightsTitle": "仪表盘与 HUD 投屏",
+    "highlightsLead": "本分支提供两条相互独立的投屏通道。两者都需手动开启、都属实验特性，也都不需要 ADB、root 或转接器。",
+    "cards": [
+      {
+        "eyebrow": "仪表盘",
+        "title": "把地图镜像到仪表盘",
+        "body": "利用比亚迪已向第三方应用开放的仪表区域，把 Android Auto 画面投到仪表屏上，紧邻车速与挡位信息。镜像会按固件自适应视口，因此不会遮挡仪表信息。",
+        "points": [
+          "**DiLink 4.0 / 5.0**——图层 `fission_bg_XDJAScreenProjection`，由 `setLaunchDisplayId` 启动的 Activity 承载；使用整块显示屏。",
+          "**DiLink 5.1**——图层 `shared_fission_bg_XDJAScreenProjection_0`（全图）与 `_1`（侧图），由 `Presentation` 承载；仅占用地图带或 600×720 侧边卡片。",
+          "仪表屏分辨率为 1920×720；原生仪表信息仍在底层正常显示。",
+          "默认关闭——请在 **设置 → 高级 →「Instrument cluster map mirror」** 中开启。"
+        ]
+      },
+      {
+        "eyebrow": "投屏时机",
+        "title": "选择仪表盘何时投屏",
+        "body": "一直投屏并不总是你想要的。三档严格嵌套的时机设置，让你不需要地图时让仪表屏保留车辆自身显示。默认为「常开」，因此在你不主动更改前行为完全不变。",
+        "points": [
+          "**常开（Always）**——只要会话在线就投屏（默认）。",
+          "**巡航 + 导航（Cruise + nav）**——只要屏幕上有地图就投屏，无论是否在导航。",
+          "**仅导航（Nav only）**——仅在正在逐向导航时投屏。",
+          "判定依据 Android Auto 自身的 `INSTRUMENT_CLUSTER_*` 信号，并设有 30 秒时间窗，避免长直路段上镜像反复闪烁。"
+        ]
+      },
+      {
+        "eyebrow": "HUD",
+        "title": "DiLink 5.1 上的挡风玻璃导航",
+        "body": "在已验证的固件上，转向箭头、转弯距离和道路名称可显示到挡风玻璃 HUD 上，无需 ADB、root 或辅助进程。该通道与地图镜像相互独立，可单独使用。",
+        "points": [
+          "已在 **DiLink 5.1 / Android 13** 上实车确认；另有贡献者独立报告 **DiLink 5.0** 可用。",
+          "原生接收器通道仅限已验证的固件与接收器版本，其他固件不会因此被默认启用。",
+          "地图应用需提供结构化导航元数据——不保证每个地图应用都兼容。",
+          "在 **设置 → 导航** 中选择开启。"
+        ]
+      }
+    ],
+    "specTitle": "固件支持一览",
+    "specColumns": ["能力", "DiLink 4.0", "DiLink 5.0", "DiLink 5.1"],
+    "specRows": [
+      ["仪表盘地图镜像", "已实现，未验证", "已实现，未验证", "实车已验证"],
+      ["仪表图层", "`fission_bg_…`", "`fission_bg_…`", "`shared_fission_bg_…_0 / _1`"],
+      ["投屏载体", "Activity + 显示 ID", "Activity + 显示 ID", "Presentation"],
+      ["投屏时机三档", "支持", "支持", "支持"],
+      ["挡风玻璃 HUD 导航", "不支持", "贡献者报告可用", "实车已验证"],
+      ["无线 / USB Android Auto", "Android 10 路径，未验证", "Android 10 路径，未验证", "实车已验证"]
+    ],
+    "specNote": "「已实现，未验证」表示代码路径已完成并有单元测试覆盖，但尚未在该固件的真实车辆上运行过。欢迎反馈你的实际结果。",
     "update": "更新与签名",
     "updateText": "覆盖安装到之前的公开版本即可保留设置，公开版签名密钥不变。测试版使用独立的应用包名。",
     "follow": "获取更新",
