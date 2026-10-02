@@ -5,11 +5,11 @@
     "tag": "Independent community project",
     "badge": "PUBLIC RELEASE",
     "title": "Android Auto.\nRight on your BYD.",
-    "intro": "Your maps, music and conversations on the car display. DiAuto brings wireless Android Auto to compatible BYD DiLink head units, with a simpler interface and smoother scrolling.",
+    "intro": "Your maps, music and conversations on the car display. Project maps and navigation onto the instrument cluster or the HUD window. DiAuto Pro brings wireless Android Auto to compatible BYD DiLink head units, with a simpler interface and smoother scrolling.",
     "download": "Download APK",
     "install": "How to install",
     "promise": "No additional phone app. No dongle or external hardware. No root.",
-    "requires": "Install DiAuto on the car. Your compatible Android phone uses its built-in Android Auto support. An Android phone is still required; this is not Apple CarPlay.",
+    "requires": "Install DiAuto Pro on the car. Your compatible Android phone uses its built-in Android Auto support. An Android phone is still required; this is not Apple CarPlay.",
     "gallery": "Made for the car",
     "captions": [
       "Android Auto with the current music card and a freely panned map. No destination selected.",
@@ -19,12 +19,12 @@
     "setup": "Install on your car",
     "steps": [
       "Download the APK and install it on the head unit using its permitted APK installation method, or use the ADB guide below. Do this while parked.",
-      "Open DiAuto and complete setup. Grant the Bluetooth, Wi-Fi/location, microphone and other permissions requested for the features you use.",
+      "Open DiAuto Pro and complete setup. Grant the Bluetooth, Wi-Fi/location, microphone and other permissions requested for the features you use.",
       "Turn on the car’s built-in hotspot (5 GHz if available). In Settings → Connection setup, select Built-in car hotspot and save its exact name and password. Keep phone Wi-Fi and Bluetooth on, pair with the car, then tap Connect phone and accept the phone prompts.",
       "Prefer a cable? Connect your phone with a USB data cable and choose Connect with USB."
     ],
     "adb": "Installation & pairing help",
-    "bssid": "DiAuto 0.3.2 automatically recovers the Wi-Fi Direct address on supported DiLink firmware. Leave Static BSSID on Auto; no ADB setup is needed for this recovery. Some firmware and phone combinations may still have connection issues.",
+    "bssid": "DiAuto Pro automatically recovers the Wi-Fi Direct address on supported DiLink firmware. Leave Static BSSID on Auto; no ADB setup is needed for this recovery. Some firmware and phone combinations may still have connection issues.",
     "whats": "What’s new",
     "features": [
       "**Instrument cluster map mirror**, with selectable mirror timing — the Android Auto picture beside your speed and gear read-outs.",
@@ -99,11 +99,11 @@
     "tag": "مشروع مجتمعي مستقل",
     "badge": "إصدار عام",
     "title": "أندرويد أوتو.\nعلى شاشة سيارتك BYD.",
-    "intro": "خرائطك وموسيقاك ومحادثاتك على شاشة السيارة. يوفّر DiAuto أندرويد أوتو لاسلكياً لوحدات BYD DiLink المتوافقة، بواجهة أبسط وتمرير أكثر سلاسة.",
+    "intro": "خرائطك وموسيقاك ومحادثاتك على شاشة السيارة. واعرض الخرائط وإرشادات الملاحة على عدّاد السيارة أو نافذة الزجاج الأمامي (HUD). يوفّر DiAuto Pro أندرويد أوتو لاسلكياً لوحدات BYD DiLink المتوافقة، بواجهة أبسط وتمرير أكثر سلاسة.",
     "download": "تنزيل APK",
     "install": "طريقة التثبيت",
     "promise": "لا تطبيق إضافي على الهاتف. لا قطعة خارجية أو أجهزة إضافية. لا روت.",
-    "requires": "ثبّت DiAuto على شاشة السيارة. يستخدم هاتف أندرويد المتوافق دعم Android Auto المدمج فيه. ما زلت تحتاج إلى هاتف أندرويد؛ هذا التطبيق ليس Apple CarPlay.",
+    "requires": "ثبّت DiAuto Pro على شاشة السيارة. يستخدم هاتف أندرويد المتوافق دعم Android Auto المدمج فيه. ما زلت تحتاج إلى هاتف أندرويد؛ هذا التطبيق ليس Apple CarPlay.",
     "gallery": "مصمّم للسيارة",
     "captions": [
       "أندرويد أوتو مع بطاقة الموسيقى الحالية وخريطة تم تحريكها يدوياً، دون تحديد وجهة.",
@@ -113,12 +113,12 @@
     "setup": "التثبيت على شاشة السيارة",
     "steps": [
       "نزّل ملف APK وثبّته على شاشة السيارة بالطريقة التي يسمح بها نظامها، أو اتّبع دليل ADB أدناه. نفّذ الإعداد والسيارة متوقفة.",
-      "افتح DiAuto وأكمل الإعداد. امنح أذونات البلوتوث والواي فاي/الموقع والميكروفون وغيرها بحسب الميزات المستخدمة.",
+      "افتح DiAuto Pro وأكمل الإعداد. امنح أذونات البلوتوث والواي فاي/الموقع والميكروفون وغيرها بحسب الميزات المستخدمة.",
       "شغّل نقطة اتصال السيارة المدمجة واختر 5 غيغاهرتز إن توفر. من الإعدادات ← إعداد الاتصال، اختر نقطة اتصال السيارة وأدخل الاسم وكلمة المرور بدقة. أبقِ Wi-Fi وBluetooth مفعّلين على الهاتف، واقرنه بالسيارة، ثم اضغط توصيل الهاتف ووافق على الطلبات.",
       "تفضّل السلك؟ وصّل هاتفك بكابل USB يدعم نقل البيانات واختر Connect with USB."
     ],
     "adb": "دليل التثبيت والمساعدة في الاقتران",
-    "bssid": "يستخرج DiAuto 0.3.2 عنوان Wi-Fi Direct تلقائيًا على إصدارات DiLink المدعومة. اترك Static BSSID على Auto؛ لا تتطلب هذه الميزة إعداد ADB. قد تستمر مشكلات الاتصال مع بعض إصدارات النظام والهواتف.",
+    "bssid": "يستخرج DiAuto Pro عنوان Wi-Fi Direct تلقائيًا على إصدارات DiLink المدعومة. اترك Static BSSID على Auto؛ لا تتطلب هذه الميزة إعداد ADB. قد تستمر مشكلات الاتصال مع بعض إصدارات النظام والهواتف.",
     "whats": "الجديد في هذا الإصدار",
     "features": [
       "**عرض الخريطة على عدّاد السيارة (Cluster)** مع اختيار توقيت العرض — صورة Android Auto بجانب السرعة والترس.",
@@ -193,11 +193,11 @@
     "tag": "Независимый проект сообщества",
     "badge": "ПУБЛИЧНЫЙ РЕЛИЗ",
     "title": "Android Auto.\nНа экране вашего BYD.",
-    "intro": "Карты, музыка и общение на экране автомобиля. DiAuto добавляет беспроводной Android Auto на совместимые головные устройства BYD DiLink — с простым интерфейсом и более плавной прокруткой.",
+    "intro": "Карты, музыка и общение на экране автомобиля. Выводите карты и навигацию на приборную панель или в окно HUD. DiAuto Pro добавляет беспроводной Android Auto на совместимые головные устройства BYD DiLink — с простым интерфейсом и более плавной прокруткой.",
     "download": "Скачать APK",
     "install": "Как установить",
     "promise": "Без дополнительного приложения на телефоне. Без адаптера и другого оборудования. Без root.",
-    "requires": "Установите DiAuto в автомобиле. Совместимый Android-телефон использует встроенную поддержку Android Auto. Android-телефон всё равно необходим; это не Apple CarPlay.",
+    "requires": "Установите DiAuto Pro в автомобиле. Совместимый Android-телефон использует встроенную поддержку Android Auto. Android-телефон всё равно необходим; это не Apple CarPlay.",
     "gallery": "Создано для автомобиля",
     "captions": [
       "Android Auto с текущей музыкой и картой, перемещённой вручную. Пункт назначения не выбран.",
@@ -207,12 +207,12 @@
     "setup": "Установка в автомобиле",
     "steps": [
       "Скачайте APK и установите на головное устройство разрешённым в его системе способом или по инструкции ADB ниже. Настраивайте на стоянке.",
-      "Откройте DiAuto и завершите настройку. Предоставьте разрешения Bluetooth, Wi-Fi/геолокации, микрофона и другие разрешения для нужных функций.",
+      "Откройте DiAuto Pro и завершите настройку. Предоставьте разрешения Bluetooth, Wi-Fi/геолокации, микрофона и другие разрешения для нужных функций.",
       "Включите встроенную точку доступа автомобиля (5 ГГц, если доступно). В Настройки → Настройка подключения выберите точку доступа автомобиля и сохраните её точные имя и пароль. Включите Wi-Fi и Bluetooth на телефоне, выполните сопряжение с автомобилем, нажмите «Подключить телефон» и подтвердите запросы.",
       "Предпочитаете кабель? Подключите телефон кабелем USB с передачей данных и выберите Connect with USB."
     ],
     "adb": "Установка и помощь с сопряжением",
-    "bssid": "DiAuto 0.3.2 автоматически определяет адрес Wi-Fi Direct на поддерживаемых прошивках DiLink. Оставьте Static BSSID в режиме Auto; для этого не нужна настройка ADB. На некоторых прошивках и телефонах проблемы подключения могут сохраняться.",
+    "bssid": "DiAuto Pro автоматически определяет адрес Wi-Fi Direct на поддерживаемых прошивках DiLink. Оставьте Static BSSID в режиме Auto; для этого не нужна настройка ADB. На некоторых прошивках и телефонах проблемы подключения могут сохраняться.",
     "whats": "Что нового",
     "features": [
       "**Зеркало карты на приборной панели** с выбором момента включения — картинка Android Auto рядом со спидометром и передачей.",
@@ -287,11 +287,11 @@
     "tag": "Proyecto independiente de la comunidad",
     "badge": "VERSIÓN PÚBLICA",
     "title": "Android Auto.\nEn la pantalla de tu BYD.",
-    "intro": "Tus mapas, música y conversaciones en la pantalla del coche. DiAuto ofrece Android Auto inalámbrico en unidades BYD DiLink compatibles, con una interfaz más sencilla y un desplazamiento más fluido.",
+    "intro": "Tus mapas, música y conversaciones en la pantalla del coche. Proyecta los mapas y la navegación en el cuadro de instrumentos o en la ventana HUD. DiAuto Pro ofrece Android Auto inalámbrico en unidades BYD DiLink compatibles, con una interfaz más sencilla y un desplazamiento más fluido.",
     "download": "Descargar APK",
     "install": "Cómo instalar",
     "promise": "Sin aplicación adicional en el teléfono. Sin adaptadores ni hardware externo. Sin root.",
-    "requires": "Instala DiAuto en el coche. Tu teléfono Android compatible usa su soporte integrado de Android Auto. Sigue siendo necesario un teléfono Android; no es Apple CarPlay.",
+    "requires": "Instala DiAuto Pro en el coche. Tu teléfono Android compatible usa su soporte integrado de Android Auto. Sigue siendo necesario un teléfono Android; no es Apple CarPlay.",
     "gallery": "Diseñado para el coche",
     "captions": [
       "Android Auto con la música actual y el mapa desplazado manualmente, sin destino seleccionado.",
@@ -301,12 +301,12 @@
     "setup": "Instálalo en el coche",
     "steps": [
       "Descarga el APK e instálalo en la unidad del coche mediante el método permitido por su sistema, o sigue la guía ADB. Haz la configuración con el coche aparcado.",
-      "Abre DiAuto y completa la configuración. Concede los permisos de Bluetooth, Wi-Fi/ubicación, micrófono y los demás necesarios para las funciones que uses.",
+      "Abre DiAuto Pro y completa la configuración. Concede los permisos de Bluetooth, Wi-Fi/ubicación, micrófono y los demás necesarios para las funciones que uses.",
       "Activa el punto de acceso integrado del coche (5 GHz si está disponible). En Ajustes → Configuración de conexión, selecciónalo y guarda su nombre y contraseña exactos. Mantén Wi-Fi y Bluetooth activos en el teléfono, emparéjalo con el coche, pulsa Conectar teléfono y acepta las indicaciones.",
       "¿Prefieres cable? Conecta el teléfono con un cable USB de datos y elige Connect with USB."
     ],
     "adb": "Instalación y ayuda de conexión",
-    "bssid": "DiAuto 0.3.2 recupera automáticamente la dirección Wi-Fi Direct en firmware DiLink compatible. Deja Static BSSID en Auto; esta función no requiere configurar ADB. Algunas combinaciones de firmware y teléfono pueden seguir teniendo problemas de conexión.",
+    "bssid": "DiAuto Pro recupera automáticamente la dirección Wi-Fi Direct en firmware DiLink compatible. Deja Static BSSID en Auto; esta función no requiere configurar ADB. Algunas combinaciones de firmware y teléfono pueden seguir teniendo problemas de conexión.",
     "whats": "Novedades",
     "features": [
       "**Espejo del mapa en el cuadro de instrumentos**, con momento de duplicado seleccionable: la imagen de Android Auto junto al velocímetro y la marcha.",
@@ -381,11 +381,11 @@
     "tag": "独立社区项目",
     "badge": "公开发布",
     "title": "Android Auto。\n就在您的比亚迪屏幕上。",
-    "intro": "在车载屏幕上使用地图、音乐和通话。DiAuto 为兼容的比亚迪 DiLink 车机带来无线 Android Auto，界面更简洁，滚动更流畅。",
+    "intro": "在车载屏幕上使用地图、音乐和通话。在仪表盘或 HUD 视窗上投射地图导航等信息。DiAuto Pro 为兼容的比亚迪 DiLink 车机带来无线 Android Auto，界面更简洁，滚动更流畅。",
     "download": "下载 APK",
     "install": "安装方法",
     "promise": "无需额外的手机应用。无需转接器或外接硬件。无需 root。",
-    "requires": "将 DiAuto 安装到车机上。兼容的安卓手机使用内置的 Android Auto 支持。仍需一部安卓手机；本应用不是 Apple CarPlay。",
+    "requires": "将 DiAuto Pro 安装到车机上。兼容的安卓手机使用内置的 Android Auto 支持。仍需一部安卓手机；本应用不是 Apple CarPlay。",
     "gallery": "为车载使用而设计",
     "captions": [
       "Android Auto 显示当前音乐和手动平移后的地图，未设置目的地。",
@@ -395,12 +395,12 @@
     "setup": "安装到车机",
     "steps": [
       "下载 APK，通过车机系统允许的方式安装，或参照下方 ADB 指南。请在停车时完成设置。",
-      "打开 DiAuto 并完成设置，根据所用功能授予蓝牙、Wi-Fi/位置、麦克风等权限。",
+      "打开 DiAuto Pro 并完成设置，根据所用功能授予蓝牙、Wi-Fi/位置、麦克风等权限。",
       "开启车机内置热点，如可选请使用 5 GHz。在“设置 → 连接设置”中选择车机内置热点，准确填写并保存名称和密码。保持手机 Wi-Fi 和蓝牙开启，与车机配对后点击“连接手机”，并同意手机上的提示。",
       "想用有线连接？使用支持数据传输的 USB 线连接手机，选择 Connect with USB。"
     ],
     "adb": "安装与配对帮助",
-    "bssid": "DiAuto 0.3.2 可在支持的 DiLink 固件上自动获取 Wi-Fi Direct 地址。请将 Static BSSID 保持为 Auto；此功能无需配置 ADB。部分固件与手机组合仍可能存在连接问题。",
+    "bssid": "DiAuto Pro 可在支持的 DiLink 固件上自动获取 Wi-Fi Direct 地址。请将 Static BSSID 保持为 Auto；此功能无需配置 ADB。部分固件与手机组合仍可能存在连接问题。",
     "whats": "本次更新",
     "features": [
       "**仪表盘地图镜像**，并可选择投屏时机——把 Android Auto 画面投到车速与挡位信息旁边的仪表屏上。",
