@@ -807,7 +807,7 @@
     <string name="support_open_issues">GitHub Issues-Seite öffnen</string>
     <string name="support_scan_qr">Oder scanne diesen QR-Code, um die Issues-Liste auf einem anderen Gerät zu öffnen.</string>
     <string name="support_github_account_warning">Hinweis: Für das Erstellen eines Issues wird ein kostenloser GitHub-Account benötigt.</string>
-    <string name="github_issues_url">https://github.com/shihabal3amri/DiAuto/issues</string>
+    <string name="github_issues_url">https://github.com/zutaozhong-hash/DiAuto-Pro/issues</string>
     <string name="support_rules_button">Regeln für Meldungen</string>
     <string name="support_rules_intro">Nur zwei Dinge sind erforderlich. Alles andere ist optional, hilft aber bei einer schnelleren Lösung.</string>
     <string name="support_rules_section_required">Erforderlich</string>

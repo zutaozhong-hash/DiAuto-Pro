@@ -861,7 +861,7 @@
     <string name="playback_focus_mode_always_hint">Android Auto 播放时始终暂停其他音频。如果开启蓝牙后音乐在一两秒内停止，请切回自动模式。</string>
     <string name="playback_focus_mode_never_hint">从不更改系统音频焦点。车机上的其他音频可能与 Android Auto 同时播放。</string>
     <string name="playback_focus_mode_static_hint">启用固定音频焦点后，此设置从手机连接起持续整个会话，而非仅在播放音频时生效。</string>
-    <string name="github_issues_url">https://github.com/shihabal3amri/DiAuto/issues</string>
+    <string name="github_issues_url">https://github.com/zutaozhong-hash/DiAuto-Pro/issues</string>
     <string name="support_rules_english_title">All posts in English</string>
     <string name="boot_loop_paused_title">无线启动已暂停</string>
     <string name="boot_loop_paused_generic">设备连续三次在 Open Headunit 启动无线连接后不久重启，因此本次未启用无线连接。USB 仍可使用。打开应用可重新启用无线连接。</string>

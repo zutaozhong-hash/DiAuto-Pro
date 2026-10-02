@@ -18,4 +18,4 @@ projection UI and connection service.
 The download site is static and uses no analytics scripts. GitHub and Telegram handle
 visits and downloads according to their own policies.
 
-Questions: https://github.com/shihabal3amri/DiAuto/issues
+Questions: https://github.com/zutaozhong-hash/DiAuto-Pro/issues

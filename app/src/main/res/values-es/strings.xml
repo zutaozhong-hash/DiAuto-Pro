@@ -870,7 +870,7 @@
     <string name="playback_focus_mode_always_hint">Pausa siempre otro audio mientras suena Android Auto. Si la música se detiene tras uno o dos segundos al activar Bluetooth, vuelve a Automático.</string>
     <string name="playback_focus_mode_never_hint">Nunca modifica el foco de audio del sistema. Otro audio puede seguir sonando sobre Android Auto.</string>
     <string name="playback_focus_mode_static_hint">Con el foco de audio estático activado, se aplica desde que se conecta el teléfono durante toda la sesión, no solo mientras suena audio.</string>
-    <string name="github_issues_url">https://github.com/shihabal3amri/DiAuto/issues</string>
+    <string name="github_issues_url">https://github.com/zutaozhong-hash/DiAuto-Pro/issues</string>
     <string name="support_rules_english_title">All posts in English</string>
     <string name="boot_loop_paused_title">Inicio inalámbrico pausado</string>
     <string name="boot_loop_paused_generic">El dispositivo se reinició tres veces seguidas poco después de iniciar la conexión inalámbrica de Open Headunit, por lo que esta vez se dejó desactivada. USB sigue funcionando. Abre la aplicación para volver a activarla.</string>

@@ -860,7 +860,7 @@
     <string name="playback_focus_mode_always_hint">يوقف الأصوات الأخرى دائماً أثناء تشغيل Android Auto. إذا توقفت الموسيقى بعد ثانية أو ثانيتين عند تفعيل Bluetooth، عُد إلى الوضع التلقائي.</string>
     <string name="playback_focus_mode_never_hint">لا يغير تركيز صوت النظام أبداً. قد تستمر الأصوات الأخرى فوق صوت Android Auto.</string>
     <string name="playback_focus_mode_static_hint">عند تفعيل تركيز الصوت الثابت، يسري هذا منذ اتصال الهاتف وطوال الجلسة، وليس أثناء تشغيل الصوت فقط.</string>
-    <string name="github_issues_url">https://github.com/shihabal3amri/DiAuto/issues</string>
+    <string name="github_issues_url">https://github.com/zutaozhong-hash/DiAuto-Pro/issues</string>
     <string name="support_rules_english_title">All posts in English</string>
     <string name="boot_loop_paused_title">تم إيقاف بدء الاتصال اللاسلكي مؤقتاً</string>
     <string name="boot_loop_paused_generic">أُعيد تشغيل هذا الجهاز ثلاث مرات متتالية بعد بدء الاتصال اللاسلكي في Open Headunit، لذلك لم يُفعّل هذه المرة. ما زال USB يعمل. افتح التطبيق لإعادة تفعيله.</string>

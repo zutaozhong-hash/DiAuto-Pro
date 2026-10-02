@@ -861,7 +861,7 @@
     <string name="playback_focus_mode_always_hint">Всегда приостанавливать другой звук во время Android Auto. Если при включённом Bluetooth музыка останавливается через секунду-две, вернитесь к автоматическому режиму.</string>
     <string name="playback_focus_mode_never_hint">Не изменять аудиофокус системы. Другой звук может продолжать играть поверх Android Auto.</string>
     <string name="playback_focus_mode_static_hint">При статическом аудиофокусе это действует с момента подключения телефона всю сессию, а не только во время воспроизведения.</string>
-    <string name="github_issues_url">https://github.com/shihabal3amri/DiAuto/issues</string>
+    <string name="github_issues_url">https://github.com/zutaozhong-hash/DiAuto-Pro/issues</string>
     <string name="support_rules_english_title">All posts in English</string>
     <string name="boot_loop_paused_title">Беспроводной запуск приостановлен</string>
     <string name="boot_loop_paused_generic">Устройство три раза подряд перезагрузилось вскоре после запуска беспроводного подключения Open Headunit, поэтому в этот раз оно отключено. USB работает. Откройте приложение, чтобы включить подключение снова.</string>
