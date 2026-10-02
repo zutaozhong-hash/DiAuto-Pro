@@ -29,7 +29,7 @@
     "features": [
       "**Instrument cluster map mirror**, with selectable mirror timing — the Android Auto picture beside your speed and gear read-outs.",
       "**Windshield HUD navigation** — turn arrows, next-turn distance and street names on verified BYD firmware, with no ADB, root or helper computer.",
-      "**DiLink 4.0 / 5.0 / 5.1 support** for the cluster mirror: two carriers and per-firmware viewport geometry, so the mirror never covers the instruments.",
+      "**DiLink 4.0 / 5.0 / 5.1 support** for the cluster mirror, with the projection area adapted per firmware so the mirror never covers the instruments.",
       "Connection setup, diagnostics and audio settings localized for English, Simplified Chinese, Arabic, Russian and Spanish; Arabic RTL layout; 20+ community app translations.",
       "Automatic Wi-Fi Direct address recovery on supported DiLink firmware, without ADB setup.",
       "Automatic translation-coverage and format checks help prevent regressions."
@@ -42,11 +42,10 @@
       {
         "eyebrow": "Cluster",
         "title": "Map mirror on the instrument cluster",
-        "body": "Put the Android Auto picture on the cluster display, next to the speed and gear read-outs, using the cluster area BYD already shares with apps. The mirror adapts its viewport per firmware, so it never covers the instruments.",
+        "body": "Put the Android Auto picture on the cluster display, next to the speed and gear read-outs. The mirror adapts to each firmware, so it never covers the instruments.",
         "points": [
-          "**DiLink 4.0 / 5.0** — layer `fission_bg_XDJAScreenProjection`, carried by an activity launched with `setLaunchDisplayId`; the whole display is used.",
-          "**DiLink 5.1** — layers `shared_fission_bg_XDJAScreenProjection_0` (full map) and `_1` (side map), carried by a `Presentation`; only the map band or the 600×720 side card is used.",
-          "Panel resolution is 1920×720; stock instrument panels stay live underneath.",
+          "**Supports DiLink 4.0 / 5.0 / 5.1 instrument cluster projection**, choosing the projection method and area for the firmware automatically.",
+          "Speed, gear and the other stock instrument read-outs stay live and uncovered.",
           "Off by default — enable under **Settings → Advanced → “Instrument cluster map mirror”**."
         ]
       },
@@ -58,7 +57,7 @@
           "**Always** — mirrors whenever a session is up (default).",
           "**Cruise + nav** — mirrors whenever a map is on screen, guided or not.",
           "**Nav only** — mirrors only during active turn-by-turn guidance.",
-          "Driven by Android Auto’s own `INSTRUMENT_CLUSTER_*` signals, with a 30-second window so a long straight road does not blink the mirror off."
+          "Driven by Android Auto’s own instrument signals rather than by guessing from screen contents, with a 30-second window so a long straight road does not blink the mirror off."
         ]
       },
       {
@@ -77,8 +76,6 @@
     "specColumns": ["Capability", "DiLink 4.0", "DiLink 5.0", "DiLink 5.1"],
     "specRows": [
       ["Cluster map mirror", "Implemented, unverified", "Implemented, unverified", "Verified on car"],
-      ["Cluster layer", "`fission_bg_…`", "`fission_bg_…`", "`shared_fission_bg_…_0 / _1`"],
-      ["Cluster carrier", "Activity + display ID", "Activity + display ID", "Presentation"],
       ["Mirror timing tiers", "Yes", "Yes", "Yes"],
       ["Windshield HUD navigation", "No", "Reported by contributor", "Verified on car"],
       ["Wireless / USB Android Auto", "Android 10 paths, unverified", "Android 10 paths, unverified", "Verified on car"]
@@ -126,7 +123,7 @@
     "features": [
       "**عرض الخريطة على عدّاد السيارة (Cluster)** مع اختيار توقيت العرض — صورة Android Auto بجانب السرعة والترس.",
       "**ملاحة على الزجاج الأمامي (HUD)** — أسهم الانعطاف والمسافة وأسماء الشوارع على إصدارات BYD المتحقق منها، دون ADB أو root أو حاسوب مساعد.",
-      "دعم **DiLink 4.0 / 5.0 / 5.1** لعرض العدّاد: طريقتا نقل وإطار عرض يتكيّف مع كل إصدار، حتى لا يغطي العرض بيانات العدّاد.",
+      "دعم **DiLink 4.0 / 5.0 / 5.1** لعرض العدّاد، مع تكييف منطقة العرض حسب الإصدار حتى لا يغطي بيانات العدّاد.",
       "إعداد الاتصال والتشخيص وإعدادات الصوت مترجمة إلى الإنجليزية والصينية المبسطة والعربية والروسية والإسبانية؛ مع دعم الواجهة العربية من اليمين إلى اليسار وأكثر من 20 ترجمة مجتمعية داخل التطبيق.",
       "استخراج تلقائي لعنوان Wi-Fi Direct على إصدارات DiLink المدعومة، دون إعداد ADB.",
       "فحوص تلقائية لاكتمال الترجمات وصحة التنسيق."
@@ -139,11 +136,10 @@
       {
         "eyebrow": "العدّاد",
         "title": "عرض الخريطة على عدّاد السيارة",
-        "body": "ضع صورة Android Auto على شاشة العدّاد بجانب السرعة والترس، مستفيدًا من منطقة العدّاد التي تتيحها BYD للتطبيقات. يتكيّف الإطار مع كل إصدار نظام، فلا يغطّي بيانات العدّاد.",
+        "body": "ضع صورة Android Auto على شاشة العدّاد بجانب السرعة والترس. يتكيّف العرض مع كل إصدار نظام، فلا يغطّي بيانات العدّاد.",
         "points": [
-          "**DiLink 4.0 / 5.0** — الطبقة `fission_bg_XDJAScreenProjection`، يحملها Activity يُشغَّل عبر `setLaunchDisplayId`؛ ويُستخدم كامل الشاشة.",
-          "**DiLink 5.1** — الطبقتان `shared_fission_bg_XDJAScreenProjection_0` (الخريطة كاملة) و`_1` (خريطة جانبية)، يحملهما `Presentation`؛ ويُستخدم شريط الخريطة أو بطاقة جانبية 600×720 فقط.",
-          "دقة شاشة العدّاد 1920×720؛ وتبقى بيانات العدّاد الأصلية ظاهرة في الخلفية.",
+          "**يدعم عرض الخريطة على عدّاد السيارة في DiLink 4.0 / 5.0 / 5.1**، ويختار طريقة العرض ومنطقته حسب الإصدار تلقائيًا.",
+          "تبقى قراءات العدّاد الأصلية — السرعة والترس وغيرها — ظاهرة ولا يغطّيها العرض.",
           "معطّل افتراضيًا — شغّله من **الإعدادات ← متقدّم ← «Instrument cluster map mirror»**."
         ]
       },
@@ -155,7 +151,7 @@
           "**دائمًا** — يعرض كلما كان الاتصال قائمًا (افتراضي).",
           "**القيادة + الملاحة** — يعرض كلما ظهرت خريطة على الشاشة، مع مسار أم لا.",
           "**الملاحة فقط** — يعرض فقط أثناء التوجيه التفصيلي الفعلي.",
-          "القرار مبنيّ على إشارات Android Auto نفسها `INSTRUMENT_CLUSTER_*` مع نافذة 30 ثانية، حتى لا ينطفئ العرض في الطرق المستقيمة الطويلة."
+          "القرار مبنيّ على إشارات العدّاد من Android Auto نفسها بدل التخمين من محتوى الشاشة، مع نافذة 30 ثانية حتى لا ينطفئ العرض في الطرق المستقيمة الطويلة."
         ]
       },
       {
@@ -174,8 +170,6 @@
     "specColumns": ["الميزة", "DiLink 4.0", "DiLink 5.0", "DiLink 5.1"],
     "specRows": [
       ["عرض الخريطة على العدّاد", "منفَّذ، غير متحقَّق", "منفَّذ، غير متحقَّق", "متحقَّق على سيارة"],
-      ["طبقة العدّاد", "`fission_bg_…`", "`fission_bg_…`", "`shared_fission_bg_…_0 / _1`"],
-      ["ناقل العرض", "Activity + معرّف الشاشة", "Activity + معرّف الشاشة", "Presentation"],
       ["درجات توقيت العرض", "مدعوم", "مدعوم", "مدعوم"],
       ["ملاحة الزجاج الأمامي", "غير مدعوم", "أفاد به مساهم", "متحقَّق على سيارة"],
       ["Android Auto لاسلكي / USB", "مسارات Android 10، غير متحقَّق", "مسارات Android 10، غير متحقَّق", "متحقَّق على سيارة"]
@@ -223,7 +217,7 @@
     "features": [
       "**Зеркало карты на приборной панели** с выбором момента включения — картинка Android Auto рядом со спидометром и передачей.",
       "**Навигация на лобовом стекле (HUD)** — стрелки поворотов, дистанция и названия улиц на проверенных прошивках BYD, без ADB, root и компьютера.",
-      "Поддержка **DiLink 4.0 / 5.0 / 5.1** для зеркала приборной панели: два способа вывода и геометрия области под каждую прошивку, чтобы зеркало не закрывало приборы.",
+      "Поддержка **DiLink 4.0 / 5.0 / 5.1** для зеркала приборной панели: область вывода подстраивается под прошивку, чтобы зеркало не закрывало приборы.",
       "Настройка подключения, диагностика и настройки звука переведены на английский, упрощённый китайский, арабский, русский и испанский; арабский интерфейс справа налево и более 20 переводов сообщества.",
       "Автоматическое восстановление адреса Wi-Fi Direct на поддерживаемых прошивках DiLink, без настройки ADB.",
       "Автоматические проверки полноты переводов и аргументов форматирования."
@@ -236,11 +230,10 @@
       {
         "eyebrow": "Панель",
         "title": "Зеркало карты на приборной панели",
-        "body": "Выводит картинку Android Auto на дисплей приборной панели, рядом со спидометром и передачей, используя область, которую BYD уже открывает приложениям. Область вывода подстраивается под прошивку, поэтому приборы не перекрываются.",
+        "body": "Выводит картинку Android Auto на дисплей приборной панели, рядом со спидометром и передачей. Область вывода подстраивается под прошивку, поэтому приборы не перекрываются.",
         "points": [
-          "**DiLink 4.0 / 5.0** — слой `fission_bg_XDJAScreenProjection`, выводится через Activity, запущенную с `setLaunchDisplayId`; используется весь дисплей.",
-          "**DiLink 5.1** — слои `shared_fission_bg_XDJAScreenProjection_0` (карта целиком) и `_1` (боковая карта), вывод через `Presentation`; используются только полоса карты или боковая карточка 600×720.",
-          "Разрешение панели — 1920×720; штатные приборы остаются видны под изображением.",
+          "**Поддержка зеркала карты на приборной панели для DiLink 4.0 / 5.0 / 5.1** — способ и область вывода выбираются по прошивке автоматически.",
+          "Штатные показания — скорость, передача и другие — остаются видны и не закрываются.",
           "По умолчанию выключено — включите в **Настройки → Дополнительно → «Instrument cluster map mirror»**."
         ]
       },
@@ -252,7 +245,7 @@
           "**Всегда** — выводит, пока сессия активна (по умолчанию).",
           "**Круиз + навигация** — выводит, когда на экране есть карта, с маршрутом или без.",
           "**Только навигация** — выводит только при активном ведении по маршруту.",
-          "Решение основано на собственных сигналах Android Auto `INSTRUMENT_CLUSTER_*` с окном 30 секунд, поэтому на длинной прямой зеркало не мигает."
+          "Решение основано на собственных сигналах приборов от Android Auto, а не на догадках по содержимому экрана, с окном 30 секунд — на длинной прямой зеркало не мигает."
         ]
       },
       {
@@ -271,8 +264,6 @@
     "specColumns": ["Возможность", "DiLink 4.0", "DiLink 5.0", "DiLink 5.1"],
     "specRows": [
       ["Зеркало карты на панели", "Реализовано, не проверено", "Реализовано, не проверено", "Проверено на авто"],
-      ["Слой панели", "`fission_bg_…`", "`fission_bg_…`", "`shared_fission_bg_…_0 / _1`"],
-      ["Способ вывода", "Activity + ID дисплея", "Activity + ID дисплея", "Presentation"],
       ["Режимы момента вывода", "Есть", "Есть", "Есть"],
       ["Навигация на лобовом стекле", "Нет", "Сообщил участник", "Проверено на авто"],
       ["Android Auto: беспроводно / USB", "Пути Android 10, не проверены", "Пути Android 10, не проверены", "Проверено на авто"]
@@ -320,7 +311,7 @@
     "features": [
       "**Espejo del mapa en el cuadro de instrumentos**, con momento de duplicado seleccionable: la imagen de Android Auto junto al velocímetro y la marcha.",
       "**Navegación en el parabrisas (HUD)**: flechas de giro, distancia y nombres de calles en firmware BYD verificado, sin ADB, root ni ordenador auxiliar.",
-      "Compatibilidad **DiLink 4.0 / 5.0 / 5.1** para el espejo del cuadro: dos métodos de transporte y geometría adaptada a cada firmware, para no tapar los instrumentos.",
+      "Compatibilidad **DiLink 4.0 / 5.0 / 5.1** para el espejo del cuadro, con el área de proyección adaptada a cada firmware para no tapar los instrumentos.",
       "Configuración de conexión, diagnóstico y ajustes de audio localizados en inglés, chino simplificado, árabe, ruso y español; interfaz árabe de derecha a izquierda y más de 20 traducciones de la comunidad.",
       "Recuperación automática de la dirección Wi-Fi Direct en firmware DiLink compatible, sin configurar ADB.",
       "Comprobaciones automáticas de cobertura de traducciones y formato."
@@ -333,11 +324,10 @@
       {
         "eyebrow": "Cuadro",
         "title": "Espejo del mapa en el cuadro de instrumentos",
-        "body": "Lleva la imagen de Android Auto a la pantalla del cuadro, junto al velocímetro y la marcha, usando el área que BYD ya comparte con las aplicaciones. El área se adapta a cada firmware, así que nunca tapa los instrumentos.",
+        "body": "Lleva la imagen de Android Auto a la pantalla del cuadro, junto al velocímetro y la marcha. El área se adapta a cada firmware, así que nunca tapa los instrumentos.",
         "points": [
-          "**DiLink 4.0 / 5.0** — capa `fission_bg_XDJAScreenProjection`, transportada por una Activity lanzada con `setLaunchDisplayId`; se usa toda la pantalla.",
-          "**DiLink 5.1** — capas `shared_fission_bg_XDJAScreenProjection_0` (mapa completo) y `_1` (mapa lateral), transportadas por un `Presentation`; se usa solo la banda del mapa o la tarjeta lateral de 600×720.",
-          "La resolución del cuadro es 1920×720; los instrumentos originales siguen activos debajo.",
+          "**Compatible con el espejo del cuadro en DiLink 4.0 / 5.0 / 5.1**, eligiendo la forma y el área de proyección según el firmware de forma automática.",
+          "El velocímetro, la marcha y el resto de instrumentos originales siguen visibles y sin tapar.",
           "Desactivado por defecto: actívalo en **Ajustes → Avanzado → «Instrument cluster map mirror»**."
         ]
       },
@@ -349,7 +339,7 @@
           "**Siempre** — duplica mientras haya sesión activa (por defecto).",
           "**Crucero + navegación** — duplica cuando hay un mapa en pantalla, con o sin ruta.",
           "**Solo navegación** — duplica solo durante la guía activa giro a giro.",
-          "La decisión se basa en las señales propias de Android Auto `INSTRUMENT_CLUSTER_*`, con una ventana de 30 segundos para que el espejo no parpadee en rectas largas."
+          "La decisión se basa en las señales propias de instrumentos de Android Auto, no en adivinar por el contenido de la pantalla, con una ventana de 30 segundos para que el espejo no parpadee en rectas largas."
         ]
       },
       {
@@ -368,8 +358,6 @@
     "specColumns": ["Capacidad", "DiLink 4.0", "DiLink 5.0", "DiLink 5.1"],
     "specRows": [
       ["Espejo del mapa en el cuadro", "Implementado, sin verificar", "Implementado, sin verificar", "Verificado en coche"],
-      ["Capa del cuadro", "`fission_bg_…`", "`fission_bg_…`", "`shared_fission_bg_…_0 / _1`"],
-      ["Transporte", "Activity + ID de pantalla", "Activity + ID de pantalla", "Presentation"],
       ["Niveles de momento", "Sí", "Sí", "Sí"],
       ["Navegación en el parabrisas", "No", "Informado por colaborador", "Verificado en coche"],
       ["Android Auto inalámbrico / USB", "Rutas Android 10, sin verificar", "Rutas Android 10, sin verificar", "Verificado en coche"]
@@ -417,7 +405,7 @@
     "features": [
       "**仪表盘地图镜像**，并可选择投屏时机——把 Android Auto 画面投到车速与挡位信息旁边的仪表屏上。",
       "**挡风玻璃 HUD 导航**——在已验证的比亚迪固件上显示转向箭头、转弯距离和道路名称，无需 ADB、root 或电脑辅助。",
-      "仪表盘镜像支持 **DiLink 4.0 / 5.0 / 5.1**：两种投屏载体与按固件自适应的视口，确保镜像不遮挡仪表信息。",
+      "仪表盘镜像支持 **DiLink 4.0 / 5.0 / 5.1**，并按固件自动适配投屏区域，确保不遮挡仪表信息。",
       "连接设置、诊断与音频设置已本地化为英语、简体中文、阿拉伯语、俄语和西班牙语；支持阿拉伯语从右到左布局；应用内另有 20 多种社区翻译。",
       "在支持的 DiLink 固件上自动恢复 Wi-Fi Direct 地址，无需配置 ADB。",
       "自动检查翻译覆盖和格式参数，减少后续回归。"
@@ -430,11 +418,10 @@
       {
         "eyebrow": "仪表盘",
         "title": "把地图镜像到仪表盘",
-        "body": "利用比亚迪已向第三方应用开放的仪表区域，把 Android Auto 画面投到仪表屏上，紧邻车速与挡位信息。镜像会按固件自适应视口，因此不会遮挡仪表信息。",
+        "body": "把 Android Auto 画面投到仪表屏上，紧邻车速与挡位信息。投屏会按固件自动适配，因此不会遮挡仪表信息。",
         "points": [
-          "**DiLink 4.0 / 5.0**——图层 `fission_bg_XDJAScreenProjection`，由 `setLaunchDisplayId` 启动的 Activity 承载；使用整块显示屏。",
-          "**DiLink 5.1**——图层 `shared_fission_bg_XDJAScreenProjection_0`（全图）与 `_1`（侧图），由 `Presentation` 承载；仅占用地图带或 600×720 侧边卡片。",
-          "仪表屏分辨率为 1920×720；原生仪表信息仍在底层正常显示。",
+          "**支持 DiLink 4.0 / 5.0 / 5.1 的仪表盘投屏**，按固件自动选择投屏方式与显示区域。",
+          "车速、挡位等原车仪表信息仍在底层正常显示，不会被遮挡。",
           "默认关闭——请在 **设置 → 高级 →「Instrument cluster map mirror」** 中开启。"
         ]
       },
@@ -446,7 +433,7 @@
           "**常开（Always）**——只要会话在线就投屏（默认）。",
           "**巡航 + 导航（Cruise + nav）**——只要屏幕上有地图就投屏，无论是否在导航。",
           "**仅导航（Nav only）**——仅在正在逐向导航时投屏。",
-          "判定依据 Android Auto 自身的 `INSTRUMENT_CLUSTER_*` 信号，并设有 30 秒时间窗，避免长直路段上镜像反复闪烁。"
+          "依据 Android Auto 自身发出的仪表信号判定，而不是靠屏幕内容推测；并设有 30 秒时间窗，避免长直路段上镜像反复闪烁。"
         ]
       },
       {
@@ -465,8 +452,6 @@
     "specColumns": ["能力", "DiLink 4.0", "DiLink 5.0", "DiLink 5.1"],
     "specRows": [
       ["仪表盘地图镜像", "已实现，未验证", "已实现，未验证", "实车已验证"],
-      ["仪表图层", "`fission_bg_…`", "`fission_bg_…`", "`shared_fission_bg_…_0 / _1`"],
-      ["投屏载体", "Activity + 显示 ID", "Activity + 显示 ID", "Presentation"],
       ["投屏时机三档", "支持", "支持", "支持"],
       ["挡风玻璃 HUD 导航", "不支持", "贡献者报告可用", "实车已验证"],
       ["无线 / USB Android Auto", "Android 10 路径，未验证", "Android 10 路径，未验证", "实车已验证"]
